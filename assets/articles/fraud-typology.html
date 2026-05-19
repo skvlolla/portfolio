@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Know Your Enemy: A Practitioner's Guide to Fraud Typologies — Fraud Risk Intelligence</title>
+<style>
+  :root {
+    --ink:         #1A1A1A;
+    --ink-mid:     #3D3D3A;
+    --ink-muted:   #6B6B67;
+    --ink-faint:   #9A9A95;
+    --stone-50:    #F5F4F0;
+    --stone-100:   #ECEAE4;
+    --stone-200:   #D8D5CC;
+    --stone-300:   #B8B5AB;
+    --slate:       #2C3E50;
+    --slate-light: #EBF0F5;
+    --accent:      #2C6E8A;
+    --accent-light:#E6F2F7;
+    --accent-rule: #A8CCDA;
+    --warm:        #7A5C2E;
+    --warm-light:  #F5EFE4;
+    --success:     #2D6A4F;
+    --success-bg:  #EBF5F0;
+    --border:      rgba(0,0,0,0.07);
+    --border-mid:  rgba(0,0,0,0.12);
+    --radius:      6px;
+    --radius-sm:   4px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, "Times New Roman", serif; background: var(--stone-50); color: var(--ink); font-size: 16px; line-height: 1.75; }
+
+  /* NAV */
+  nav { background: var(--slate); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-brand { color: #fff; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; font-family: system-ui, sans-serif; }
+  .nav-brand em { color: var(--accent-rule); font-style: normal; font-weight: 700; }
+  .nav-back { color: rgba(255,255,255,0.55); font-size: 12px; text-decoration: none; font-family: system-ui, sans-serif; letter-spacing: 0.04em; transition: color 0.15s; }
+  .nav-back:hover { color: rgba(255,255,255,0.9); }
+
+  /* HEADER */
+  .article-header { background: var(--slate); padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .header-inner { max-width: 780px; margin: 0 auto; }
+  .header-series { display: inline-flex; align-items: center; gap: 8px; font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-rule); margin-bottom: 20px; }
+  .header-series::before { content: ''; display: block; width: 20px; height: 1px; background: var(--accent-rule); opacity: 0.6; }
+  .article-header h1 { font-family: Georgia, serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 700; line-height: 1.2; color: #fff; letter-spacing: -0.01em; margin-bottom: 18px; }
+  .article-header .deck { font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.62); max-width: 640px; margin-bottom: 32px; font-style: italic; }
+  .header-meta { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; font-family: system-ui, sans-serif; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; padding-right: 28px; margin-right: 28px; border-right: 1px solid rgba(255,255,255,0.1); }
+  .meta-item:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+  .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .meta-value { font-size: 12px; color: rgba(255,255,255,0.72); font-weight: 500; }
+
+  /* LAYOUT */
+  .page-layout { max-width: 1080px; margin: 0 auto; padding: 52px 24px 80px; display: grid; grid-template-columns: 1fr 220px; gap: 56px; align-items: start; }
+
+  /* PROSE */
+  .prose { min-width: 0; }
+  .prose .lead { font-size: 18px; line-height: 1.7; color: var(--ink-mid); border-left: 3px solid var(--accent); padding-left: 20px; margin-bottom: 36px; font-style: italic; }
+  .prose h2 { font-family: Georgia, serif; font-size: 19px; font-weight: 700; color: var(--slate); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-200); letter-spacing: -0.01em; }
+  .prose p { font-size: 16px; line-height: 1.8; color: var(--ink-mid); margin-bottom: 20px; }
+  .prose ul { padding-left: 22px; margin-bottom: 20px; }
+  .prose li { font-size: 15px; line-height: 1.75; color: var(--ink-mid); margin-bottom: 7px; }
+  .prose strong { font-weight: 700; color: var(--ink); }
+
+  .section-rule { background: var(--slate); color: #fff; padding: 11px 20px; border-radius: var(--radius-sm); margin: 48px 0 24px; font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+  .section-rule::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
+
+  .pullquote { margin: 36px 0; padding: 20px 28px; border-left: 4px solid var(--accent); background: var(--accent-light); border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; font-size: 17px; line-height: 1.65; color: var(--slate); }
+
+  .callout { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 22px 26px; margin: 28px 0; }
+  .callout-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+  .callout ul { padding-left: 18px; }
+  .callout li { font-family: system-ui, sans-serif; font-size: 14px; color: var(--ink-mid); margin-bottom: 5px; line-height: 1.65; }
+
+  /* Typology comparison table */
+  .type-table { width: 100%; border-collapse: collapse; margin: 24px 0 32px; font-family: system-ui, sans-serif; font-size: 13px; }
+  .type-table th { background: var(--slate); color: rgba(255,255,255,0.85); font-weight: 600; padding: 11px 16px; text-align: left; }
+  .type-table th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+  .type-table th:last-child  { border-radius: 0 var(--radius-sm) 0 0; }
+  .type-table td { padding: 10px 16px; border-bottom: 1px solid var(--stone-100); color: var(--ink-mid); vertical-align: top; line-height: 1.6; }
+  .type-table tr:last-child td { border-bottom: none; }
+  .type-table tr:nth-child(even) td { background: var(--stone-50); }
+  .type-table td:first-child { font-weight: 700; color: var(--slate); white-space: nowrap; }
+
+  /* FPF / TPF signal cards */
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0 32px; }
+  .signal-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 20px; }
+  .signal-card.fpf { border-top: 3px solid var(--warm); }
+  .signal-card.tpf { border-top: 3px solid var(--accent); }
+  .signal-card-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+  .signal-card.fpf .signal-card-label { color: var(--warm); }
+  .signal-card.tpf .signal-card-label { color: var(--accent); }
+  .signal-card h4 { font-family: Georgia, serif; font-size: 15px; font-weight: 700; color: var(--slate); margin-bottom: 10px; }
+  .signal-card ul { padding-left: 16px; }
+  .signal-card li { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-muted); margin-bottom: 5px; line-height: 1.6; }
+
+  /* Article footer */
+  .article-footer { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--stone-200); }
+  .footer-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-link { display: flex; align-items: flex-start; gap: 10px; }
+  .footer-link-label { font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); min-width: 80px; padding-top: 1px; }
+  .footer-link-title { font-family: system-ui, sans-serif; font-size: 14px; color: var(--accent); font-weight: 500; text-decoration: none; }
+  .footer-link-title:hover { text-decoration: underline; }
+
+  /* SIDEBAR */
+  .sidebar { position: sticky; top: 72px; font-family: system-ui, sans-serif; }
+  .sidebar-block { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; }
+  .sidebar-block h4 { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-100); }
+  .toc-link { display: block; font-size: 12px; color: var(--ink-muted); text-decoration: none; padding: 5px 0 5px 10px; border-left: 2px solid transparent; line-height: 1.45; transition: all 0.15s; }
+  .toc-link:hover { color: var(--accent); border-left-color: var(--accent-rule); }
+  .toc-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+  .tag { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 600; margin: 2px 2px 2px 0; letter-spacing: 0.03em; }
+  .tag-found  { background: var(--success-bg);   color: var(--success); }
+  .tag-topic  { background: var(--stone-100);    color: var(--ink-muted); }
+  .rel-link { display: block; text-decoration: none; padding: 9px 0; border-bottom: 1px solid var(--stone-100); }
+  .rel-link:last-child { border-bottom: none; padding-bottom: 0; }
+  .rel-link-title { font-size: 12px; font-weight: 600; color: var(--slate); display: block; margin-bottom: 2px; line-height: 1.4; }
+  .rel-link-sub { font-size: 11px; color: var(--ink-faint); }
+  .rel-link:hover .rel-link-title { color: var(--accent); }
+  .current-article { background: var(--stone-50); margin: 0 -20px; padding: 9px 20px; }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 24px 48px; font-size: 11px; font-family: system-ui, sans-serif; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; letter-spacing: 0.03em; }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 740px) {
+    nav { padding: 0 16px; } .article-header { padding: 36px 16px 32px; }
+    .page-layout { grid-template-columns: 1fr; padding: 32px 16px 60px; }
+    .sidebar { position: static; } .signal-grid { grid-template-columns: 1fr; }
+    footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Fraud Risk <em>Intelligence</em></a>
+  <a class="nav-back" href="../index.html">← All articles</a>
+</nav>
+
+<div class="article-header">
+  <div class="header-inner">
+    <div class="header-series">The Fraud Risk Practitioner's Handbook</div>
+    <h1>Know Your Enemy: A Practitioner's Guide to Fraud Typologies</h1>
+    <p class="deck">Understanding first-party and third-party fraud — how each operates, why each is invisible in different ways, and why a unified detection framework is the only rational response to both.</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-label">Level</span><span class="meta-value">Foundational</span></div>
+      <div class="meta-item"><span class="meta-label">Read time</span><span class="meta-value">~8 min</span></div>
+      <div class="meta-item"><span class="meta-label">Focus</span><span class="meta-value">Fraud typology &amp; threat landscape</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page-layout">
+<article class="prose">
+
+  <p class="lead">Financial institutions today face a fraud landscape that has grown both in scale and sophistication. Two distinct but equally corrosive threats sit at the heart of this challenge: first-party fraud, perpetrated by the customer themselves, and third-party fraud, where an external actor exploits a customer's identity or account without their knowledge. Addressing only one while ignoring the other leaves a critical gap that bad actors readily exploit.</p>
+
+  <!-- S1 -->
+  <div class="section-rule" id="s1">01 — First-party fraud: the threat from within</div>
+
+  <p>First-party fraud occurs when a genuine customer deliberately misrepresents information for financial gain. This includes <strong>application fraud</strong> (falsifying income, employment, or identity details to obtain credit), <strong>bust-out fraud</strong> (building up credit lines only to exhaust and default on them), and <strong>friendly fraud</strong> (disputing legitimate transactions). What makes this category particularly insidious is its invisibility: these customers pass standard identity checks because they are who they claim to be. The fraud is in the intent, not the identity.</p>
+
+  <div class="pullquote">"First-party fraud is invisible at the point of application — by the time traditional controls detect it, the loss has already been realized."</div>
+
+  <h2>Synthetic identity fraud: the gray zone</h2>
+  <p>Synthetic identity fraud occupies a gray zone between first and third-party fraud. Fraudsters combine real and fabricated personal data — a genuine Social Security number with a fictitious name and address, for instance — to create a wholly new persona. These synthetic identities can remain dormant for months, sometimes years, building creditworthiness and establishing a seemingly legitimate financial footprint before executing a bust-out. This makes them one of the costliest typologies in lending, and one of the hardest to catch at origination because the identity itself appears internally consistent.</p>
+
+  <h2>Key first-party signals</h2>
+  <div class="signal-grid">
+    <div class="signal-card fpf">
+      <div class="signal-card-label">Application-time signals</div>
+      <h4>At origination</h4>
+      <ul>
+        <li>Income or employment data inconsistent with bureau profile</li>
+        <li>Address recently created or shared across multiple applicants</li>
+        <li>Device or IP associated with prior fraud events</li>
+        <li>Application submitted outside normal behavioral hours</li>
+        <li>Thin-file profile inconsistent with stated financial history</li>
+      </ul>
+    </div>
+    <div class="signal-card fpf">
+      <div class="signal-card-label">Behavioral signals</div>
+      <h4>Post-onboarding</h4>
+      <ul>
+        <li>Rapid drawdown of full credit limit post-approval</li>
+        <li>Same-day disbursement and full withdrawal</li>
+        <li>Immediate cessation of repayment activity</li>
+        <li>Synthetic identity pattern: long dormancy then sudden burst</li>
+        <li>Multiple products opened in rapid succession</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section-rule" id="s2">02 — Third-party fraud: external exploitation</div>
+
+  <p>Third-party fraud targets a genuine and unsuspecting customer. The perpetrator is an external actor — not the account holder — using stolen, fabricated, or socially engineered access to exploit either the institution or the customer directly.</p>
+
+  <p><strong>Account takeover (ATO)</strong>, where criminals gain control of an existing account through credential theft or social engineering, has accelerated sharply with the proliferation of phishing campaigns and data breaches. Once inside a genuine account, the attacker benefits from the customer's established history — bypassing controls designed to catch new or anomalous behavior.</p>
+
+  <p><strong>New account fraud</strong> using stolen identities follows a similar logic applied at origination: the fraudster presents a real person's identity documents and data, passes verification, and then exploits the newly opened account before the institution detects the disconnect between the account holder and the actual operator.</p>
+
+  <p><strong>Authorized push payment (APP) scams</strong> represent a distinct and rapidly growing third-party typology. The customer is manipulated — through impersonation of trusted institutions, investment scams, or romance fraud — into voluntarily transferring funds to a fraudster-controlled account. Critically, the customer authorizes the transaction. The institution may bear reputational and regulatory consequence even where no technical system failure occurred.</p>
+
+  <div class="callout">
+    <div class="callout-label">Major third-party typologies at a glance</div>
+    <ul>
+      <li><strong>Account takeover (ATO):</strong> Credential theft, phishing, SIM-swap, or social engineering grants attacker control of an existing account</li>
+      <li><strong>New account fraud:</strong> Stolen or fabricated identity used to open accounts that are immediately exploited</li>
+      <li><strong>Authorized push payment (APP) scams:</strong> Customer is deceived into authorizing a payment to a fraudster — institution liability increasing under regulatory frameworks</li>
+      <li><strong>Card-not-present (CNP) fraud:</strong> Stolen card data used for remote purchases without physical card requirement</li>
+      <li><strong>Mule account exploitation:</strong> Compromised or wittingly recruited accounts used to receive and forward fraud proceeds, obscuring the trail</li>
+    </ul>
+  </div>
+
+  <div class="signal-grid">
+    <div class="signal-card tpf">
+      <div class="signal-card-label">Account takeover signals</div>
+      <h4>ATO indicators</h4>
+      <ul>
+        <li>Login from unrecognized device or geography</li>
+        <li>Rapid credential changes post-login (email, phone, password)</li>
+        <li>High-value transaction immediately after access</li>
+        <li>Session behavior inconsistent with historical patterns</li>
+        <li>Multiple failed authentication attempts before success</li>
+      </ul>
+    </div>
+    <div class="signal-card tpf">
+      <div class="signal-card-label">APP & mule signals</div>
+      <h4>Exploitation indicators</h4>
+      <ul>
+        <li>Outbound payment to first-time beneficiary of unusual size</li>
+        <li>Customer contact with institution shortly after payment</li>
+        <li>Inbound credits from multiple disparate sources</li>
+        <li>Rapid onward transfer of inbound funds</li>
+        <li>Account activity inconsistent with customer profile</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section-rule" id="s3">03 — Why the distinction matters — and why it doesn't</div>
+
+  <p>The operational response to first-party and third-party fraud differs significantly. First-party fraud requires controls at origination — stronger application validation, identity verification, and behavioral monitoring in the early lifecycle of a product. Third-party fraud requires strong authentication, anomaly detection on existing accounts, and customer-facing friction at moments of high risk (large payments, credential changes, new device access).</p>
+
+  <p>But the distinction breaks down at the detection layer. A customer flagged for suspicious deposit behavior — high-velocity inbound credits, rapid internal transfers, unusual outbound payments — may be a first-party fraud actor structuring proceeds. Or they may be a third-party fraud victim whose account has been compromised and is being used as a mule. The behavioral signal is substantially the same. The intervention, the customer communication, and the SAR filing decision will differ — but the upstream detection logic does not.</p>
+
+  <div class="pullquote">"The response to first-party and third-party fraud differs. The signal that triggers the response often doesn't. A unified detection framework is not a convenience — it is a necessity."</div>
+
+  <table class="type-table">
+    <thead>
+      <tr><th>Dimension</th><th>First-party fraud</th><th>Third-party fraud</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Perpetrator</td><td>The customer themselves</td><td>External actor exploiting customer or institution</td></tr>
+      <tr><td>Identity</td><td>Genuine (fraud is in intent)</td><td>Stolen, synthetic, or socially engineered</td></tr>
+      <tr><td>Primary detection window</td><td>Origination and early lifecycle</td><td>Authentication and transactional monitoring</td></tr>
+      <tr><td>Customer awareness</td><td>Customer is the perpetrator</td><td>Customer is typically a victim</td></tr>
+      <tr><td>Key typologies</td><td>Application fraud, bust-out, friendly fraud, synthetic identity</td><td>ATO, new account fraud, APP scams, mule accounts</td></tr>
+      <tr><td>Regulatory exposure</td><td>Credit loss, potential sanctions violation</td><td>Consumer protection, APP reimbursement obligations</td></tr>
+      <tr><td>Recovery likelihood</td><td>Very low — customer has exited</td><td>Low — funds move quickly; some APP reimbursement</td></tr>
+    </tbody>
+  </table>
+
+  <!-- S4 -->
+  <div class="section-rule" id="s4">04 — The unified framework imperative</div>
+
+  <p>The case for a unified detection framework — one that operates across both fraud types simultaneously rather than maintaining parallel, siloed controls — rests on three arguments.</p>
+
+  <p>First, <strong>signal overlap</strong>. As described above, many behavioral signals are diagnostic of both fraud types. A unified framework evaluates the full signal set and determines the most likely scenario, rather than routing the customer through separate rule sets that may reach contradictory conclusions.</p>
+
+  <p>Second, <strong>organized fraud complexity</strong>. Sophisticated fraud operations deliberately blend first and third-party typologies. A fraud ring may use synthetic identities (first-party characteristics) to open accounts that are subsequently exploited by third-party operators, with genuine mule customers (third-party victims) used as intermediaries. Siloed detection frameworks cannot surface this network structure. Only a unified view — capable of linking accounts, devices, behaviors, and identities across typologies — can detect the ring rather than individual transactions.</p>
+
+  <p>Third, <strong>operational efficiency</strong>. Maintaining separate investigation workflows, alert queues, and case management systems for first and third-party fraud creates duplication, increases false positive rates, and fragments institutional intelligence. A single framework with typology-specific response logic is both more accurate and more operationally sustainable.</p>
+
+  <div class="callout">
+    <div class="callout-label">What a unified framework must do</div>
+    <ul>
+      <li>Evaluate origination, behavioral, and transactional signals simultaneously across both typologies</li>
+      <li>Maintain a dynamic customer risk profile that updates continuously across the account lifecycle</li>
+      <li>Support typology-specific response logic without requiring separate detection architectures</li>
+      <li>Enable network and link analysis that surfaces connections across accounts and typologies</li>
+      <li>Feed a single case management system with typology context, not parallel queues</li>
+    </ul>
+  </div>
+
+  <!-- ARTICLE FOOTER -->
+  <div class="article-footer">
+    <div class="footer-label">Continue reading</div>
+    <div class="footer-links">
+      <div class="footer-link">
+        <span class="footer-link-label">Next</span>
+        <a class="footer-link-title" href="./cross-functional.html">Article 2 — The Fraud Function: Operating Within the Business</a>
+      </div>
+
+      <!--
+      <div class="footer-link">
+        <span class="footer-link-label">Related</span>
+        <a class="footer-link-title" href="./stopping-fraud.html">Stopping Fraud Before It Starts — upstream detection &amp; the false positive imperative</a>
+      </div>-->
+      <div class="footer-link">
+        <span class="footer-link-label">Discuss</span>
+        <a class="footer-link-title" href="https://linkedin.com/in/sai-krishna-v-lolla-bba01b13/">Join the conversation on LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-block">
+    <h4>In this article</h4>
+    <a class="toc-link" href="#s1">First-party fraud</a>
+    <a class="toc-link" href="#s2">Third-party fraud</a>
+    <a class="toc-link" href="#s3">Why the distinction matters</a>
+    <a class="toc-link" href="#s4">The unified framework</a>
+  </div>
+  <div class="sidebar-block">
+    <h4>Tags</h4>
+    <span class="tag tag-found">Foundational</span>
+    <span class="tag tag-topic">Typology</span>
+    <span class="tag tag-topic">First-party</span>
+    <span class="tag tag-topic">Third-party</span>
+    <span class="tag tag-topic">ATO</span>
+    <span class="tag tag-topic">Synthetic identity</span>
+  </div>
+  <div class="sidebar-block">
+    <h4>In this series</h4>
+    <div class="rel-link current-article">
+      <span class="rel-link-title">1 — Know Your Enemy ←</span>
+      <span class="rel-link-sub">You are here</span>
+    </div>
+    <a class="rel-link" href="./cross-functional.html">
+      <span class="rel-link-title">2 — The Fraud Function</span>
+      <span class="rel-link-sub">Governance &amp; cross-functional design</span>
+    </a>
+
+    <!--
+    <a class="rel-link" href="./product-risk.html">
+      <span class="rel-link-title">3 — Product Risk Profiles</span>
+      <span class="rel-link-sub">Deposits, loans, cards</span>
+    </a>
+    <a class="rel-link" href="#">
+      <span class="rel-link-title" style="color:var(--ink-faint)">4 — Technology Stack</span>
+      <span class="rel-link-sub">Coming soon</span>
+    </a>
+    <a class="rel-link" href="./building-defenses.html">
+      <span class="rel-link-title">5 — Building the Defense</span>
+      <span class="rel-link-sub">Zero to continuous improvement</span>
+    </a>
+    -->
+  </div>
+  <!--
+  <div class="sidebar-block">
+    <h4>Standalone deep-dives</h4>
+    <a class="rel-link" href="./stopping-fraud.html">
+      <span class="rel-link-title">Stopping Fraud Before It Starts</span>
+      <span class="rel-link-sub">Upstream detection</span>
+    </a>
+    <a class="rel-link" href="./deepfake-frontier.html">
+      <span class="rel-link-title">The Deepfake Frontier</span>
+      <span class="rel-link-sub">AI &amp; emerging threats</span>
+    </a>
+  </div>
+  -->
+</aside>
+</div>
+
+<footer>
+  <span>Fraud Risk Intelligence — Practitioner Knowledge Repository</span>
+  <a href="../index.html">← All articles</a>
+</footer>
+
+<script>
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('.section-rule[id]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
