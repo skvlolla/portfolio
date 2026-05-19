@@ -2,30 +2,26 @@
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks  = document.querySelector('.nav-links');
 
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
-
-// Close mobile nav when a link is clicked
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => navLinks.classList.remove('open'));
 });
 
-// ── Scroll spy: highlight active nav link ─────────────────────
-const sections = document.querySelectorAll('section[id]');
+// ── Scroll spy ────────────────────────────────────────────────
+const sections    = document.querySelectorAll('section[id]');
 const allNavLinks = document.querySelectorAll('.nav-links a');
 
-const observer = new IntersectionObserver(entries => {
+const spy = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       allNavLinks.forEach(a => a.classList.remove('active'));
-      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-      if (active) active.classList.add('active');
+      const a = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      if (a) a.classList.add('active');
     }
   });
 }, { rootMargin: '-40% 0px -55% 0px' });
 
-sections.forEach(s => observer.observe(s));
+sections.forEach(s => spy.observe(s));
 
 // ── Certification modal ────────────────────────────────────────
 const modal        = document.getElementById('cert-modal');
@@ -37,7 +33,6 @@ document.querySelectorAll('.cert-card').forEach(card => {
   card.addEventListener('click', () => {
     const type = card.dataset.type;
     const src  = card.dataset.src;
-
     modalContent.innerHTML = '';
 
     if (type === 'image') {
