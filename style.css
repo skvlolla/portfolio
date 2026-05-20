@@ -132,10 +132,10 @@ img { max-width: 100%; display: block; }
 
 /* ── Hero ──────────────────────────────────────────────────── */
 #hero {
-  min-height: 100vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
-  padding: calc(var(--nav-h) + 5rem) 2rem 5rem;
+  padding: calc(var(--nav-h) + 3rem) 2rem 3rem;
 }
 
 .hero-inner {
@@ -212,7 +212,7 @@ img { max-width: 100%; display: block; }
 .hero-socials a:hover { color: var(--gray-900); }
 
 /* ── Section Shared ────────────────────────────────────────── */
-section { padding: 5rem 2rem; }
+section { padding: 2.25rem 2rem; }
 .section-tinted { background: var(--gray-50); }
 
 .section-inner {
@@ -226,14 +226,14 @@ section { padding: 5rem 2rem; }
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--gray-400);
-  margin-bottom: .6rem;
+  margin-bottom: .35rem;
 }
 
 .section-heading {
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
   letter-spacing: -.02em;
 }
 
@@ -251,7 +251,7 @@ section { padding: 5rem 2rem; }
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 280px;
-  gap: 4rem;
+  gap: 2.5rem;
   align-items: start;
 }
 
