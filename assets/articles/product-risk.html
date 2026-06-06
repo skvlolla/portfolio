@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Risk Profiles: Tailoring Defense to the Battleground — Fraud Risk Intelligence</title>
+<style>
+  :root {
+    --ink:         #1A1A1A;
+    --ink-mid:     #3D3D3A;
+    --ink-muted:   #6B6B67;
+    --ink-faint:   #9A9A95;
+    --stone-50:    #F5F4F0;
+    --stone-100:   #ECEAE4;
+    --stone-200:   #D8D5CC;
+    --stone-300:   #B8B5AB;
+    --slate:       #2C3E50;
+    --slate-light: #EBF0F5;
+    --accent:      #2C6E8A;
+    --accent-light:#E6F2F7;
+    --accent-rule: #A8CCDA;
+    --warm:        #7A5C2E;
+    --warm-light:  #F5EFE4;
+    --success:     #2D6A4F;
+    --success-bg:  #EBF5F0;
+    --border:      rgba(0,0,0,0.07);
+    --border-mid:  rgba(0,0,0,0.12);
+    --radius:      6px;
+    --radius-sm:   4px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, "Times New Roman", serif; background: var(--stone-50); color: var(--ink); font-size: 16px; line-height: 1.75; }
+
+  nav { background: var(--slate); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-brand { color: #fff; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; font-family: system-ui, sans-serif; }
+  .nav-brand em { color: var(--accent-rule); font-style: normal; font-weight: 700; }
+  .nav-back { color: rgba(255,255,255,0.55); font-size: 12px; text-decoration: none; font-family: system-ui, sans-serif; letter-spacing: 0.04em; transition: color 0.15s; }
+  .nav-back:hover { color: rgba(255,255,255,0.9); }
+
+  .article-header { background: var(--slate); padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .header-inner { max-width: 780px; margin: 0 auto; }
+  .header-series { display: inline-flex; align-items: center; gap: 8px; font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-rule); margin-bottom: 20px; }
+  .header-series::before { content: ''; display: block; width: 20px; height: 1px; background: var(--accent-rule); opacity: 0.6; }
+  .article-header h1 { font-family: Georgia, serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 700; line-height: 1.2; color: #fff; letter-spacing: -0.01em; margin-bottom: 18px; }
+  .article-header .deck { font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.62); max-width: 640px; margin-bottom: 32px; font-style: italic; }
+  .header-meta { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; font-family: system-ui, sans-serif; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; padding-right: 28px; margin-right: 28px; border-right: 1px solid rgba(255,255,255,0.1); }
+  .meta-item:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+  .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .meta-value { font-size: 12px; color: rgba(255,255,255,0.72); font-weight: 500; }
+
+  .page-layout { max-width: 1080px; margin: 0 auto; padding: 52px 24px 80px; display: grid; grid-template-columns: 1fr 220px; gap: 56px; align-items: start; }
+
+  .prose { min-width: 0; }
+  .prose .lead { font-size: 18px; line-height: 1.7; color: var(--ink-mid); border-left: 3px solid var(--accent); padding-left: 20px; margin-bottom: 36px; font-style: italic; }
+  .prose h2 { font-family: Georgia, serif; font-size: 19px; font-weight: 700; color: var(--slate); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-200); letter-spacing: -0.01em; }
+  .prose p { font-size: 16px; line-height: 1.8; color: var(--ink-mid); margin-bottom: 20px; }
+  .prose ul { padding-left: 22px; margin-bottom: 20px; }
+  .prose li { font-size: 15px; line-height: 1.75; color: var(--ink-mid); margin-bottom: 7px; }
+  .prose strong { font-weight: 700; color: var(--ink); }
+
+  .section-rule { background: var(--slate); color: #fff; padding: 11px 20px; border-radius: var(--radius-sm); margin: 48px 0 24px; font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+  .section-rule::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
+
+  .pullquote { margin: 36px 0; padding: 20px 28px; border-left: 4px solid var(--accent); background: var(--accent-light); border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; font-size: 17px; line-height: 1.65; color: var(--slate); }
+
+  .callout { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 22px 26px; margin: 28px 0; }
+  .callout-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+  .callout ul { padding-left: 18px; }
+  .callout li { font-family: system-ui, sans-serif; font-size: 14px; color: var(--ink-mid); margin-bottom: 6px; line-height: 1.65; }
+
+  .warning-callout { background: var(--warm-light); border: 1px solid rgba(122,92,46,0.2); border-left: 4px solid var(--warm); border-radius: var(--radius); padding: 18px 22px; margin: 28px 0; }
+  .warning-callout .callout-label { color: var(--warm); }
+  .warning-callout p { font-family: system-ui, sans-serif; font-size: 14px; color: var(--warm); line-height: 1.65; margin: 0; }
+
+  /* Product comparison matrix */
+  .product-matrix { width: 100%; border-collapse: collapse; margin: 24px 0 36px; font-family: system-ui, sans-serif; font-size: 13px; }
+  .product-matrix th { background: var(--slate); color: rgba(255,255,255,0.85); font-weight: 600; padding: 11px 14px; text-align: left; }
+  .product-matrix th:first-child { border-radius: var(--radius-sm) 0 0 0; width: 160px; }
+  .product-matrix th:last-child  { border-radius: 0 var(--radius-sm) 0 0; }
+  .product-matrix td { padding: 10px 14px; border-bottom: 1px solid var(--stone-100); color: var(--ink-mid); vertical-align: top; line-height: 1.55; }
+  .product-matrix tr:last-child td { border-bottom: none; }
+  .product-matrix tr:nth-child(even) td { background: var(--stone-50); }
+  .product-matrix td:first-child { font-weight: 700; color: var(--slate); }
+  .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; }
+  .badge-high   { background: #FBE9E9; color: #7A2020; }
+  .badge-medium { background: var(--warm-light); color: var(--warm); }
+  .badge-low    { background: var(--success-bg); color: var(--success); }
+
+  /* KRI signal cards */
+  .kri-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0 32px; }
+  .kri-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 20px; }
+  .kri-card-eyebrow { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+  .kri-card.dda  .kri-card-eyebrow { color: var(--accent); }
+  .kri-card.loan .kri-card-eyebrow { color: var(--warm); }
+  .kri-card.card .kri-card-eyebrow { color: var(--success); }
+  .kri-card h4 { font-family: Georgia, serif; font-size: 15px; font-weight: 700; color: var(--slate); margin-bottom: 10px; }
+  .kri-card ul { padding-left: 16px; }
+  .kri-card li { font-family: system-ui, sans-serif; font-size: 12px; color: var(--ink-muted); margin-bottom: 5px; line-height: 1.6; }
+
+  /* Timeline urgency bars */
+  .urgency-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0 32px; }
+  .urgency-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 16px 18px; }
+  .urgency-card-title { font-family: system-ui, sans-serif; font-size: 12px; font-weight: 700; color: var(--slate); margin-bottom: 10px; }
+  .urgency-bar-wrap { background: var(--stone-100); border-radius: 3px; height: 8px; margin-bottom: 6px; }
+  .urgency-bar { height: 8px; border-radius: 3px; }
+  .urgency-label { font-family: system-ui, sans-serif; font-size: 11px; color: var(--ink-faint); }
+  .bar-critical { background: #B52020; width: 95%; }
+  .bar-high     { background: var(--warm); width: 70%; }
+  .bar-moderate { background: var(--accent); width: 45%; }
+
+  /* Article footer */
+  .article-footer { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--stone-200); }
+  .footer-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-link { display: flex; align-items: flex-start; gap: 10px; }
+  .footer-link-label { font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); min-width: 80px; padding-top: 1px; }
+  .footer-link-title { font-family: system-ui, sans-serif; font-size: 14px; color: var(--accent); font-weight: 500; text-decoration: none; }
+  .footer-link-title:hover { text-decoration: underline; }
+
+  /* Sidebar */
+  .sidebar { position: sticky; top: 72px; font-family: system-ui, sans-serif; }
+  .sidebar-block { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; }
+  .sidebar-block h4 { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-100); }
+  .toc-link { display: block; font-size: 12px; color: var(--ink-muted); text-decoration: none; padding: 5px 0 5px 10px; border-left: 2px solid transparent; line-height: 1.45; transition: all 0.15s; }
+  .toc-link:hover { color: var(--accent); border-left-color: var(--accent-rule); }
+  .toc-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+  .tag { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 600; margin: 2px 2px 2px 0; letter-spacing: 0.03em; }
+  .tag-int   { background: var(--accent-light); color: var(--accent); }
+  .tag-topic { background: var(--stone-100);    color: var(--ink-muted); }
+  .rel-link { display: block; text-decoration: none; padding: 9px 0; border-bottom: 1px solid var(--stone-100); }
+  .rel-link:last-child { border-bottom: none; padding-bottom: 0; }
+  .rel-link-title { font-size: 12px; font-weight: 600; color: var(--slate); display: block; margin-bottom: 2px; line-height: 1.4; }
+  .rel-link-sub { font-size: 11px; color: var(--ink-faint); }
+  .rel-link:hover .rel-link-title { color: var(--accent); }
+  .current-article { background: var(--stone-50); margin: 0 -20px; padding: 9px 20px; }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 24px 48px; font-size: 11px; font-family: system-ui, sans-serif; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; letter-spacing: 0.03em; }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 740px) {
+    nav { padding: 0 16px; } .article-header { padding: 36px 16px 32px; }
+    .page-layout { grid-template-columns: 1fr; padding: 32px 16px 60px; }
+    .sidebar { position: static; }
+    .kri-grid, .urgency-grid { grid-template-columns: 1fr; }
+    footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Fraud Risk <em>Intelligence</em></a>
+  <a class="nav-back" href="../index.html">← All articles</a>
+</nav>
+
+<div class="article-header">
+  <div class="header-inner">
+    <div class="header-series">Article 3 of 5 — The Fraud Risk Practitioner's Handbook</div>
+    <h1>Product Risk Profiles: Tailoring Defense to the Battleground</h1>
+    <p class="deck">Fraud risk is not uniform across banking products. Each product carries its own exposure profile, loss timeline, and signal set — and fraud defenses that ignore these differences will be either too slow or too blunt to be effective.</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-label">Level</span><span class="meta-value">Intermediate</span></div>
+      <div class="meta-item"><span class="meta-label">Read time</span><span class="meta-value">~12 min</span></div>
+      <div class="meta-item"><span class="meta-label">Focus</span><span class="meta-value">DDA · Consumer loans · Credit cards · KRIs · Triage design</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page-layout">
+<article class="prose">
+
+  <p class="lead">A checking account, a consumer loan, and a credit card may all be targeted by the same fraudster — yet the attack path, time horizon, observable signals, and potential loss pattern can differ materially. Fraud teams that design controls without accounting for these differences risk being too slow where speed is critical, and too aggressive where patience would yield a better signal.</p>
+
+  <!-- S1 -->
+  <div class="section-rule" id="s1">01 — Why fraud risk varies by product</div>
+
+  <p>The assumption that a single fraud framework can be applied uniformly across a product portfolio is one of the most persistent and costly mistakes in fraud program design. It understates the structural differences that make each product a distinct environment for both attackers and defenders.</p>
+
+  <p>Several factors drive this variation. <strong>Identity and bureau visibility</strong> differs significantly: products supported by richer credit bureau, income verification, or repayment history give institutions more data points for decisioning. Low-information products — thin-file applicants for deposit accounts, for instance — leave teams relying more heavily on device, behavioral, and velocity signals that are inherently less stable. <strong>Liquidity and extraction speed</strong> matter enormously: products that deliver immediate monetary value (disbursed loan funds, a funded deposit account) are far more attractive to opportunistic fraud than products where value accrues slowly. <strong>Reversibility</strong> varies too: a credit card dispute can be initiated; a completed wire transfer from a mule account largely cannot. And <strong>organizational ownership</strong> frequently fragments across product lines, meaning fraud, credit, servicing, and collections teams may each hold pieces of the picture without a unified view.</p>
+
+  <p>Digital distribution has amplified all of these differences. As onboarding and servicing journeys move online, institutions face expanding exposure to synthetic identity fraud, account takeover, scams, and first-party misuse — simultaneously across all products, through channels optimized for speed rather than verification depth.</p>
+
+  <div class="pullquote">"Fraudsters understand product differences very well. They choose products not only by ease of entry, but by how quickly value can be extracted, how long they can remain undetected, and how easily losses can be disguised as normal customer behavior."</div>
+
+  <!-- S2 -->
+  <div class="section-rule" id="s2">02 — Product comparison: fraud lens</div>
+
+  <p>The table below maps each major retail banking product across the dimensions that matter most for fraud program design: bureau visibility, loss timeline, primary typologies, and intervention urgency. These are not fixed categories — a specific institution's product design and distribution channel will shift the profile — but they represent the most common pattern observed across the industry.</p>
+
+  <table class="product-matrix">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Bureau / identity depth</th>
+        <th>Time to loss</th>
+        <th>Primary fraud typologies</th>
+        <th>Urgency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Demand deposit (DDA)</td>
+        <td>Low–medium (thin-file common)</td>
+        <td>Minutes to hours</td>
+        <td>Synthetic identity, mule accounts, ATO, check fraud, scam-enabled transfers</td>
+        <td><span class="badge badge-high">Critical</span></td>
+      </tr>
+      <tr>
+        <td>Consumer loans</td>
+        <td>Medium–high (bureau-supported)</td>
+        <td>Hours to days</td>
+        <td>Application fraud, synthetic identity, bust-out, first-party misrepresentation</td>
+        <td><span class="badge badge-high">High</span></td>
+      </tr>
+      <tr>
+        <td>Credit cards</td>
+        <td>High (full bureau pull)</td>
+        <td>Days to weeks</td>
+        <td>CNP fraud, ATO, bust-out, dispute abuse, application fraud, first-party misuse</td>
+        <td><span class="badge badge-medium">Medium–High</span></td>
+      </tr>
+      <tr>
+        <td>Mortgage</td>
+        <td>Very high (full underwriting)</td>
+        <td>Weeks to months</td>
+        <td>Income/asset misrepresentation, property fraud, identity fraud at closing</td>
+        <td><span class="badge badge-low">Lower (pre-close)</span></td>
+      </tr>
+      <tr>
+        <td>Digital wallet / prepaid</td>
+        <td>Very low (minimal verification)</td>
+        <td>Seconds to minutes</td>
+        <td>Mule loading, scam receipt, rapid cash-out, money movement abuse</td>
+        <td><span class="badge badge-high">Critical</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- S3 -->
+  <div class="section-rule" id="s3">03 — Demand deposit accounts: operational and time-sensitive</div>
+
+  <p>DDA fraud is the most operationally demanding product category because the exposure is simultaneously broad and fast-moving. The account is tied to payments, transfers, debit access, check activity, and money movement — making it both the most commonly opened product and the most frequently targeted. Fraud can emerge at account opening through stolen or synthetic identities, or later through account takeover, check fraud, mule activity, and scam-enabled transactions.</p>
+
+  <p>The critical challenge is the <strong>compression of the loss window</strong>. Once a mule account receives inbound proceeds or a compromised account is accessed, funds can be moved through digital rails — Zelle, ACH push, wire, instant transfer — within minutes. By the time a transaction monitoring alert fires and an analyst reviews it, the money is frequently gone. This makes DDA the clearest case for pre-transaction controls: real-time behavioral scoring, device intelligence, and account-level velocity rules that can interrupt a transaction before it completes, not after.</p>
+
+  <p>At the same time, DDA onboarding presents the most acute false positive risk. Thin-file applicants — young adults, recent immigrants, the credit-invisible — are statistically indistinguishable from synthetic identities at the point of application using bureau-only signals. Institutions that apply aggressive origination controls will suppress legitimate account acquisition. Those that apply loose controls will absorb mule account losses. The resolution is not a threshold adjustment but a richer signal set: device intelligence, behavioral biometrics, consortium flags, and post-open monitoring that can identify mule behavior once the account becomes active, without over-declining at origination.</p>
+
+  <div class="warning-callout">
+    <div class="callout-label">The DDA asymmetry</div>
+    <p>Heavy friction at onboarding suppresses legitimate acquisition. Light friction creates mule account exposure. Neither extreme is acceptable. The answer is layered post-open monitoring — not stricter origination gates alone.</p>
+  </div>
+
+  <!-- S4 -->
+  <div class="section-rule" id="s4">04 — Consumer loans: origination is everything</div>
+
+  <p>Consumer lending fraud may not always be as immediate as DDA fraud, but the financial consequences are often larger in absolute terms. A fraudulent personal loan of $15,000 disbursed to a bust-out synthetic identity represents a complete loss with near-zero recovery. The fraud is committed at origination; the loss crystallizes at disbursement; and everything after — monitoring, collections, SAR filing — is remediation of a decision that has already been made.</p>
+
+  <p>This is why the origination decision in consumer lending deserves the most rigorous fraud scrutiny of any moment in the product lifecycle. The application window is the only point at which the institution retains full control over the exposure. Once funds are disbursed, the options narrow to early payment default detection, collections, and credit loss absorption.</p>
+
+  <p>Consumer loan fraud sits at a particularly difficult intersection: the <strong>boundary between fraud and credit risk</strong>. A customer who misrepresents income to obtain a loan they have no intention of repaying is a fraud case. A customer who genuinely overestimates their ability to repay is a credit case. The signals at origination can look similar — thin bureau file, stated income exceeding verifiable data, rapid application. This is why fraud and credit teams must share origination intelligence rather than operating separate decisioning processes. A credit decline signal should be visible to fraud; a fraud flag should inform credit underwriting.</p>
+
+  <p>The digital lending environment has compressed timelines further. Many platforms now commit to same-day or next-day funding decisions and disbursement. In that environment, the fraud review must be embedded within the underwriting workflow — not a downstream check — and it must be capable of completing within the decision latency the product promises.</p>
+
+  <!-- S5 -->
+  <div class="section-rule" id="s5">05 — Credit cards: pattern development and persistence</div>
+
+  <p>Credit card fraud occupies a different temporal register from DDA and consumer loans. Some typologies — card-not-present transaction fraud following account takeover — can move quickly. But many of the most costly credit card fraud patterns develop over weeks or months: a fraudster who obtains a card through application fraud may spend conservatively for several billing cycles, build a payment history, request a line increase, and only then execute a bust-out. The slow burn is intentional. It is designed to resemble legitimate credit behavior right up to the point of maximum extraction.</p>
+
+  <p>This has two implications for fraud prevention design. First, <strong>transaction anomaly detection alone is insufficient</strong>. A single suspicious transaction may be within the card's normal behavioral range. Fraud teams need to monitor behavioral trajectories — how spending patterns, payment timing, balance utilization, and dispute behavior evolve over the account's life — not just point-in-time transactions. Second, <strong>the signal set must extend across multiple channels</strong>: origination data, bureau behavior, servicing interactions, payment patterns, and dispute history all contribute to the fraud picture. No single channel holds enough signal to reliably detect a staged bust-out.</p>
+
+  <p>Dispute and chargeback abuse is a specific card typology that deserves explicit attention. First-party misuse of the dispute process — claiming non-receipt on legitimate purchases, disputing charges from merchants the customer actually patronized — sits at the edge of fraud and customer misconduct. It is often undercounted because it is absorbed by customer service and operations teams rather than fraud, and because challenging a dispute carries regulatory risk under consumer protection frameworks. Building a credible first-party dispute intelligence capability, separate from third-party chargeback processing, is one of the more materially underdeveloped areas in most card fraud programs.</p>
+
+  <!-- S6 -->
+  <div class="section-rule" id="s6">06 — Key risk indicators by product</div>
+
+  <p>Effective fraud triage requires product-specific KRI frameworks. The signals that should trigger immediate escalation on a DDA transfer are different from those that warrant a case review on a credit card account. Below is a practitioner-level signal set for each of the three core retail products.</p>
+
+  <div class="kri-grid">
+    <div class="kri-card dda">
+      <div class="kri-card-eyebrow">Demand deposit accounts</div>
+      <h4>DDA — Key risk indicators</h4>
+      <ul>
+        <li>Account opened and funded within same session</li>
+        <li>Inbound credits from multiple unrelated sources</li>
+        <li>10+ low-value credits within 7-day rolling window</li>
+        <li>Rapid outbound transfer immediately post-credit</li>
+        <li>Login from new device or unrecognized geography</li>
+        <li>Credential changes within 24h of large transaction</li>
+        <li>Account dormant then sudden burst of activity</li>
+        <li>Multiple accounts sharing device or phone number</li>
+        <li>Outbound volume disproportionate to stated income</li>
+      </ul>
+    </div>
+    <div class="kri-card loan">
+      <div class="kri-card-eyebrow">Consumer loans</div>
+      <h4>Loans — Key risk indicators</h4>
+      <ul>
+        <li>Income or employment inconsistent with bureau data</li>
+        <li>Address recently created or shared across applicants</li>
+        <li>High vendor model risk score at origination</li>
+        <li>Same-day disbursement and full withdrawal</li>
+        <li>Device or IP flagged in prior fraud events</li>
+        <li>Application submitted outside normal hours</li>
+        <li>Thin bureau file inconsistent with stated history</li>
+        <li>Multiple loan applications across institutions</li>
+        <li>Immediate cessation of repayment post-disbursement</li>
+      </ul>
+    </div>
+    <div class="kri-card card">
+      <div class="kri-card-eyebrow">Credit cards</div>
+      <h4>Cards — Key risk indicators</h4>
+      <ul>
+        <li>Application fraud: address or income misrepresentation</li>
+        <li>Rapid line utilization post-activation</li>
+        <li>Transactions clustered in atypical merchant categories</li>
+        <li>Card-not-present spike on newly activated card</li>
+        <li>Payment reversal followed by fresh spend</li>
+        <li>Dispute frequency above peer benchmark</li>
+        <li>Balance growth with no corresponding income signal</li>
+        <li>ATO indicator: device change + immediate high-value spend</li>
+        <li>Bust-out pattern: full utilization + missed payment</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section-rule" id="s7">07 — Triage, escalation, and organizational design</div>
+
+  <p>Understanding product-specific risk profiles is necessary but not sufficient. The harder operational challenge is translating that understanding into triage and escalation frameworks that route the right alerts to the right teams at the right speed. Fraud functions that apply the same review queue and same analyst workflow to a DDA transfer alert and a credit card behavioral pattern will either over-escalate one or under-escalate the other.</p>
+
+  <div class="urgency-grid">
+    <div class="urgency-card">
+      <div class="urgency-card-title">DDA / digital wallet</div>
+      <div class="urgency-bar-wrap"><div class="urgency-bar bar-critical"></div></div>
+      <div class="urgency-label">Intervention window: minutes. Real-time controls essential. Post-alert review may arrive too late to prevent loss.</div>
+    </div>
+    <div class="urgency-card">
+      <div class="urgency-card-title">Consumer loans</div>
+      <div class="urgency-bar-wrap"><div class="urgency-bar bar-high"></div></div>
+      <div class="urgency-label">Intervention window: hours (pre-disbursement). Fraud review must be embedded in underwriting, not downstream.</div>
+    </div>
+    <div class="urgency-card">
+      <div class="urgency-card-title">Credit cards</div>
+      <div class="urgency-bar-wrap"><div class="urgency-bar bar-moderate"></div></div>
+      <div class="urgency-label">Intervention window: days to weeks for behavioral patterns. Persistence monitoring enables earlier detection of staged fraud.</div>
+    </div>
+  </div>
+
+  <p>The practical challenge compounds when alerts from different products are routed through a single case management system without product context. An analyst reviewing a DDA alert should be working against a near-real-time clock; an analyst reviewing a credit card behavioral pattern may legitimately need to aggregate signals across several billing cycles before reaching confidence. Conflating these timelines — in either direction — produces poor outcomes: missed DDA losses and premature card case closures.</p>
+
+  <p>Organizational design should reflect these differences. At minimum, <strong>alert prioritization logic</strong> should account for product type, estimated financial exposure, time elapsed since the triggering event, and whether the account has already moved funds. A second dimension is <strong>cross-product linkage</strong>: a customer who has both a DDA and a consumer loan may exhibit fraud signals on the deposit account that are directly related to the loan drawdown — internal transfers post-disbursement, for instance. Only a unified customer view that spans product silos will surface this connection before the loss is complete.</p>
+
+  <div class="callout">
+    <div class="callout-label">Organizational mechanisms that improve product-sensitive triage</div>
+    <ul>
+      <li><strong>Product-weighted alert scoring:</strong> Alert priority scores that incorporate product type, monetary exposure, and time-to-loss estimates — not just model confidence</li>
+      <li><strong>Dedicated DDA and payments fraud capacity:</strong> Real-time alert queues require analysts who can act within minutes, not the standard case review cycle</li>
+      <li><strong>Pre-disbursement fraud gates in lending:</strong> A mandatory fraud hold point before loan funds are released, operating in parallel with credit underwriting rather than after it</li>
+      <li><strong>Cross-product case linking:</strong> Case management that automatically surfaces related accounts, devices, and identities across DDA, loan, and card portfolios for the same customer</li>
+      <li><strong>First-party dispute intelligence:</strong> A distinct tracking and review process for repeat dispute behavior, separate from standard chargeback handling</li>
+    </ul>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="section-rule" id="s8">Conclusion</div>
+
+  <p>A fraud-focused view of banking products begins with a simple but consequential premise: products are not equally vulnerable, losses do not emerge on the same timeline, and controls cannot be prioritized in the same way. Bureau visibility, product structure, digital channel exposure, and the speed at which value can be extracted all shape how fraud manifests and how quickly institutions must respond.</p>
+
+  <p>For fraud prevention professionals, this translates into a concrete operational discipline: alert design, triage logic, analyst workflows, and escalation frameworks must all be calibrated to the product in question — not applied uniformly across the portfolio. Institutions that build this product sensitivity into their fraud programs are better positioned to intervene before loss crystallizes, reduce false positive impact on legitimate customers, and create the cross-product visibility that modern fraud rings actively exploit.</p>
+
+  <div class="article-footer">
+    <div class="footer-label">Continue reading</div>
+    <div class="footer-links">
+      <div class="footer-link">
+        <span class="footer-link-label">Previous</span>
+        <a class="footer-link-title" href="./cross-functional.html">Article 2 — The Fraud Function: Operating Within the Business</a>
+      </div>
+      <div class="footer-link">
+        <span class="footer-link-label">Next</span>
+        <a class="footer-link-title" href="./fraud-tech-stack.html">Article 4 — The Technology Stack: Models, Decisioning &amp; the Vendor Landscape</a>
+      </div>
+      <div class="footer-link">
+        <span class="footer-link-label">Related</span>
+        <a class="footer-link-title" href="./stopping-fraud.html">Stopping Fraud Before It Starts — upstream detection &amp; signal precision</a>
+      </div>
+      <div class="footer-link">
+        <span class="footer-link-label">Discuss</span>
+        <a class="footer-link-title" href="https://linkedin.com/in/YOUR-PROFILE">Join the conversation on LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+<aside class="sidebar">
+  <div class="sidebar-block">
+    <h4>In this article</h4>
+    <a class="toc-link" href="#s1">Why risk varies by product</a>
+    <a class="toc-link" href="#s2">Product comparison matrix</a>
+    <a class="toc-link" href="#s3">Demand deposit accounts</a>
+    <a class="toc-link" href="#s4">Consumer loans</a>
+    <a class="toc-link" href="#s5">Credit cards</a>
+    <a class="toc-link" href="#s6">Key risk indicators</a>
+    <a class="toc-link" href="#s7">Triage &amp; escalation design</a>
+  </div>
+  <div class="sidebar-block">
+    <h4>Tags</h4>
+    <span class="tag tag-int">Intermediate</span>
+    <span class="tag tag-topic">Product risk</span>
+    <span class="tag tag-topic">DDA</span>
+    <span class="tag tag-topic">Consumer loans</span>
+    <span class="tag tag-topic">Credit cards</span>
+    <span class="tag tag-topic">KRIs</span>
+  </div>
+  <div class="sidebar-block">
+    <h4>In this series</h4>
+    <a class="rel-link" href="./fraud-typology.html">
+      <span class="rel-link-title">1 — Know Your Enemy</span>
+      <span class="rel-link-sub">Fraud typologies primer</span>
+    </a>
+    <a class="rel-link" href="./cross-functional.html">
+      <span class="rel-link-title">2 — The Fraud Function</span>
+      <span class="rel-link-sub">Governance &amp; cross-functional design</span>
+    </a>
+    <div class="rel-link current-article">
+      <span class="rel-link-title">3 — Product Risk Profiles ←</span>
+      <span class="rel-link-sub">You are here</span>
+    </div>
+    <a class="rel-link" href="./fraud-tech-stack.html">
+      <span class="rel-link-title">4 — Technology Stack</span>
+      <span class="rel-link-sub">Models, decisioning &amp; vendors</span>
+    </a>
+    <a class="rel-link" href="./building-defenses.html">
+      <span class="rel-link-title">5 — Building the Defense</span>
+      <span class="rel-link-sub">Zero to continuous improvement</span>
+    </a>
+  </div>
+  <div class="sidebar-block">
+    <h4>Standalone deep-dives</h4>
+    <a class="rel-link" href="./stopping-fraud.html">
+      <span class="rel-link-title">Stopping Fraud Before It Starts</span>
+      <span class="rel-link-sub">Upstream detection</span>
+    </a>
+    <a class="rel-link" href="./deepfake-frontier.html">
+      <span class="rel-link-title">The Deepfake Frontier</span>
+      <span class="rel-link-sub">AI &amp; emerging threats</span>
+    </a>
+  </div>
+</aside>
+</div>
+
+<footer>
+  <span>Fraud Risk Intelligence — Practitioner Knowledge Repository</span>
+  <a href="../index.html">← All articles</a>
+</footer>
+
+<script>
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('.section-rule[id]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
