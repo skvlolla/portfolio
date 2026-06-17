@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Technology Stack: Models, Decisioning & the Vendor Landscape — Fraud Risk Intelligence</title>
+<style>
+  :root {
+    --ink:         #1A1A1A;
+    --ink-mid:     #3D3D3A;
+    --ink-muted:   #6B6B67;
+    --ink-faint:   #9A9A95;
+    --stone-50:    #F5F4F0;
+    --stone-100:   #ECEAE4;
+    --stone-200:   #D8D5CC;
+    --stone-300:   #B8B5AB;
+    --slate:       #2C3E50;
+    --slate-light: #EBF0F5;
+    --accent:      #2C6E8A;
+    --accent-light:#E6F2F7;
+    --accent-rule: #A8CCDA;
+    --warm:        #7A5C2E;
+    --warm-light:  #F5EFE4;
+    --success:     #2D6A4F;
+    --success-bg:  #EBF5F0;
+    --border:      rgba(0,0,0,0.07);
+    --border-mid:  rgba(0,0,0,0.12);
+    --radius:      6px;
+    --radius-sm:   4px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, "Times New Roman", serif; background: var(--stone-50); color: var(--ink); font-size: 16px; line-height: 1.75; }
+
+  nav { background: var(--slate); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-brand { color: #fff; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; font-family: system-ui, sans-serif; }
+  .nav-brand em { color: var(--accent-rule); font-style: normal; font-weight: 700; }
+  .nav-back { color: rgba(255,255,255,0.55); font-size: 12px; text-decoration: none; font-family: system-ui, sans-serif; letter-spacing: 0.04em; transition: color 0.15s; }
+  .nav-back:hover { color: rgba(255,255,255,0.9); }
+
+  .article-header { background: var(--slate); padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .header-inner { max-width: 780px; margin: 0 auto; }
+  .header-series { display: inline-flex; align-items: center; gap: 8px; font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-rule); margin-bottom: 20px; }
+  .header-series::before { content: ''; display: block; width: 20px; height: 1px; background: var(--accent-rule); opacity: 0.6; }
+  .article-header h1 { font-family: Georgia, serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 700; line-height: 1.2; color: #fff; letter-spacing: -0.01em; margin-bottom: 18px; }
+  .article-header .deck { font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.62); max-width: 640px; margin-bottom: 32px; font-style: italic; }
+  .header-meta { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; font-family: system-ui, sans-serif; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; padding-right: 28px; margin-right: 28px; border-right: 1px solid rgba(255,255,255,0.1); }
+  .meta-item:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+  .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .meta-value { font-size: 12px; color: rgba(255,255,255,0.72); font-weight: 500; }
+
+  .page-layout { max-width: 1080px; margin: 0 auto; padding: 52px 24px 80px; display: grid; grid-template-columns: 1fr 220px; gap: 56px; align-items: start; }
+
+  .prose { min-width: 0; }
+  .prose .lead { font-size: 18px; line-height: 1.7; color: var(--ink-mid); border-left: 3px solid var(--accent); padding-left: 20px; margin-bottom: 36px; font-style: italic; }
+  .prose h2 { font-family: Georgia, serif; font-size: 19px; font-weight: 700; color: var(--slate); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-200); letter-spacing: -0.01em; }
+  .prose p { font-size: 16px; line-height: 1.8; color: var(--ink-mid); margin-bottom: 20px; }
+  .prose ul { padding-left: 22px; margin-bottom: 20px; }
+  .prose li { font-size: 15px; line-height: 1.75; color: var(--ink-mid); margin-bottom: 7px; }
+  .prose strong { font-weight: 700; color: var(--ink); }
+
+  .section-rule { background: var(--slate); color: #fff; padding: 11px 20px; border-radius: var(--radius-sm); margin: 48px 0 24px; font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+  .section-rule::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
+
+  .pullquote { margin: 36px 0; padding: 20px 28px; border-left: 4px solid var(--accent); background: var(--accent-light); border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; font-size: 17px; line-height: 1.65; color: var(--slate); }
+
+  .callout { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 22px 26px; margin: 28px 0; }
+  .callout-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+  .callout ul { padding-left: 18px; }
+  .callout li { font-family: system-ui, sans-serif; font-size: 14px; color: var(--ink-mid); margin-bottom: 6px; line-height: 1.65; }
+
+  /* Stack layer flow */
+  .stack-layers { display: flex; flex-direction: column; gap: 0; margin: 24px 0 36px; }
+  .stack-layer { display: flex; gap: 0; position: relative; }
+  .stack-layer-num { flex-shrink: 0; width: 44px; display: flex; flex-direction: column; align-items: center; }
+  .stack-num-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--slate); color: #fff; display: flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; font-size: 13px; font-weight: 700; flex-shrink: 0; z-index: 1; }
+  .stack-num-line { flex: 1; width: 2px; background: var(--stone-200); margin: 0 auto; }
+  .stack-layer:last-child .stack-num-line { display: none; }
+  .stack-layer-body { flex: 1; background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 16px 20px; margin-left: 12px; margin-bottom: 10px; }
+  .stack-layer-title { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 4px; }
+  .stack-layer-desc { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-muted); line-height: 1.6; margin-bottom: 8px; }
+  .stack-layer-examples { font-family: system-ui, sans-serif; font-size: 11px; color: var(--ink-faint); }
+  .stack-layer-examples span { background: var(--stone-100); padding: 2px 6px; border-radius: 3px; margin-right: 4px; display: inline-block; margin-bottom: 3px; }
+
+  /* Build vs buy table */
+  .bvb-table { width: 100%; border-collapse: collapse; margin: 24px 0 32px; font-family: system-ui, sans-serif; font-size: 13px; }
+  .bvb-table th { background: var(--slate); color: rgba(255,255,255,0.85); font-weight: 600; padding: 11px 16px; text-align: left; }
+  .bvb-table th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+  .bvb-table th:last-child  { border-radius: 0 var(--radius-sm) 0 0; }
+  .bvb-table td { padding: 10px 16px; border-bottom: 1px solid var(--stone-100); color: var(--ink-mid); vertical-align: top; line-height: 1.6; }
+  .bvb-table tr:last-child td { border-bottom: none; }
+  .bvb-table tr:nth-child(even) td { background: var(--stone-50); }
+  .bvb-table td:first-child { font-weight: 700; color: var(--slate); width: 200px; }
+  .rec-vendor { color: var(--accent); font-weight: 700; }
+  .rec-inhouse { color: var(--success); font-weight: 700; }
+
+  /* Governance principles */
+  .principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0 32px; }
+  .principle-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 20px; }
+  .principle-num { font-family: Georgia, serif; font-size: 28px; font-weight: 700; color: var(--stone-200); margin-bottom: 6px; line-height: 1; }
+  .principle-title { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+  .principle-desc { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+  /* Article footer */
+  .article-footer { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--stone-200); }
+  .footer-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-link { display: flex; align-items: flex-start; gap: 10px; }
+  .footer-link-label { font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); min-width: 80px; padding-top: 1px; }
+  .footer-link-title { font-family: system-ui, sans-serif; font-size: 14px; color: var(--accent); font-weight: 500; text-decoration: none; }
+  .footer-link-title:hover { text-decoration: underline; }
+
+  /* Sidebar */
+  .sidebar { position: sticky; top: 72px; font-family: system-ui, sans-serif; }
+  .sidebar-block { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; }
+  .sidebar-block h4 { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-100); }
+  .toc-link { display: block; font-size: 12px; color: var(--ink-muted); text-decoration: none; padding: 5px 0 5px 10px; border-left: 2px solid transparent; line-height: 1.45; transition: all 0.15s; }
+  .toc-link:hover { color: var(--accent); border-left-color: var(--accent-rule); }
+  .toc-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+  .tag { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 600; margin: 2px 2px 2px 0; letter-spacing: 0.03em; }
+  .tag-int   { background: var(--accent-light); color: var(--accent); }
+  .tag-topic { background: var(--stone-100);    color: var(--ink-muted); }
+  .rel-link { display: block; text-decoration: none; padding: 9px 0; border-bottom: 1px solid var(--stone-100); }
+  .rel-link:last-child { border-bottom: none; padding-bottom: 0; }
+  .rel-link-title { font-size: 12px; font-weight: 600; color: var(--slate); display: block; margin-bottom: 2px; line-height: 1.4; }
+  .rel-link-sub { font-size: 11px; color: var(--ink-faint); }
+  .rel-link:hover .rel-link-title { color: var(--accent); }
+  .current-article { background: var(--stone-50); margin: 0 -20px; padding: 9px 20px; }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 24px 48px; font-size: 11px; font-family: system-ui, sans-serif; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; letter-spacing: 0.03em; }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 740px) {
+    nav { padding: 0 16px; } .article-header { padding: 36px 16px 32px; }
+    .page-layout { grid-template-columns: 1fr; padding: 32px 16px 60px; }
+    .sidebar { position: static; } .principles-grid { grid-template-columns: 1fr; }
+    footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Fraud Risk <em>Intelligence</em></a>
+  <a class="nav-back" href="../index.html">← All articles</a>
+</nav>
+
+<div class="article-header">
+  <div class="header-inner">
+    <div class="header-series">Article 4 of 5 — The Fraud Risk Practitioner's Handbook</div>
+    <h1>The Technology Stack: Models, Decisioning &amp; the Vendor Landscape</h1>
+    <p class="deck">An effective fraud prevention capability is never a single tool. It is a layered architecture of signal collection, identity validation, enrichment, scoring, decisioning, and feedback — assembled with deliberate choices about what to buy, what to build, and how to govern both.</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-label">Level</span><span class="meta-value">Intermediate</span></div>
+      <div class="meta-item"><span class="meta-label">Read time</span><span class="meta-value">~13 min</span></div>
+      <div class="meta-item"><span class="meta-label">Focus</span><span class="meta-value">Stack architecture · Vendor selection · Build vs buy · Model governance</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page-layout">
+<article class="prose">
+
+  <p class="lead">Fraud rarely presents itself through a single, definitive indicator. A suspicious device, an anomalous transaction, a mismatch in identity attributes, a subtle behavioral deviation — each may be insufficient on its own but collectively point to elevated risk. The technology stack exists to collect, enrich, score, and act on that collective signal — at speed, at scale, and with enough modularity to adapt as fraud evolves.</p>
+
+  <!-- S1 -->
+  <div class="section-rule" id="s1">01 — Why a layered architecture is not optional</div>
+
+  <p>The instinct to find a single vendor or model that "solves" fraud is understandable but misplaced. No single tool can see across the full fraud surface simultaneously. An identity verification provider sees document and biometric signals at onboarding. A device intelligence layer sees the session context. A transaction monitoring system sees behavioral patterns over time. A bureau or consortium data provider sees cross-institutional history. Each layer catches different attack vectors. Fraudsters who defeat one layer frequently fail at another — but only if another exists.</p>
+
+  <p>This is the core argument for layered architecture: not that any single layer is insufficient on its own, but that the combination creates detection depth that individual tools cannot replicate. A fraudster who presents a convincing synthetic identity at onboarding may still exhibit anomalous device behavior, unusual session characteristics, and atypical early transaction patterns — all of which are invisible to the identity verification layer but visible to layers downstream. Depth wins.</p>
+
+  <div class="pullquote">"The most resilient fraud stacks are not the richest in signals — they are the most modular. They allow organizations to introduce new data sources, adjust thresholds, and re-route investigations without redesigning the entire environment."</div>
+
+  <p>The practical implication for fraud leaders is that stack design is a strategic decision, not a procurement one. The questions worth asking are not "which vendor is best" but "which layers do we have, which are missing, how do they connect, and where does signal fall through the gaps?"</p>
+
+  <!-- S2 -->
+  <div class="section-rule" id="s2">02 — The core layers of the fraud prevention stack</div>
+
+  <p>A well-designed fraud prevention stack typically comprises six interconnected layers, each with a distinct function in the signal-to-decision pipeline. The labels and boundaries between layers vary by institution and vendor, but the functional requirements are consistent.</p>
+
+  <div class="stack-layers">
+    <div class="stack-layer">
+      <div class="stack-layer-num">
+        <div class="stack-num-circle">1</div>
+        <div class="stack-num-line"></div>
+      </div>
+      <div class="stack-layer-body">
+        <div class="stack-layer-title">Signal collection</div>
+        <div class="stack-layer-desc">Capture of device, network, identity, behavioral, and transactional data at the point of interaction. This layer determines what raw material is available to every downstream component. Gaps here cannot be compensated for later.</div>
+        <div class="stack-layer-examples">
+          <span>Device fingerprinting</span><span>Behavioral biometrics</span><span>Session metadata</span><span>IP / network signals</span><span>Transaction event streams</span>
+        </div>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-num">
+        <div class="stack-num-circle">2</div>
+        <div class="stack-num-line"></div>
+      </div>
+      <div class="stack-layer-body">
+        <div class="stack-layer-title">Identity validation</div>
+        <div class="stack-layer-desc">Verification of identity claims against trusted sources at onboarding and at step-up moments. Includes document authentication, biometric matching, liveness detection, and database lookups. The primary defense against synthetic identity and new account fraud.</div>
+        <div class="stack-layer-examples">
+          <span>Document verification</span><span>Biometric liveness</span><span>KYC / CIP checks</span><span>SSN validation</span><span>Address verification</span>
+        </div>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-num">
+        <div class="stack-num-circle">3</div>
+        <div class="stack-num-line"></div>
+      </div>
+      <div class="stack-layer-body">
+        <div class="stack-layer-title">Enrichment &amp; consortium intelligence</div>
+        <div class="stack-layer-desc">Augmentation of raw signals with external intelligence — bureau data, shared fraud databases, watchlists, network graphs linking devices and identities across institutions. This layer converts individual signals into contextually positioned risk assessments.</div>
+        <div class="stack-layer-examples">
+          <span>Credit bureau data</span><span>Industry fraud consortia</span><span>Identity graphing</span><span>PEP / sanctions screening</span><span>Email / phone risk scoring</span>
+        </div>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-num">
+        <div class="stack-num-circle">4</div>
+        <div class="stack-num-line"></div>
+      </div>
+      <div class="stack-layer-body">
+        <div class="stack-layer-title">Scoring &amp; model layer</div>
+        <div class="stack-layer-desc">Statistical models and machine learning applied to the enriched signal set to produce fraud probability scores. Includes both internally developed models calibrated to institution-specific fraud patterns and third-party vendor models. Rules engines sit alongside ML to enforce regulatory requirements and business logic.</div>
+        <div class="stack-layer-examples">
+          <span>ML fraud scoring models</span><span>Behavioral anomaly detection</span><span>Rule-based engines</span><span>Network scoring</span><span>Vendor model feeds</span>
+        </div>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-num">
+        <div class="stack-num-circle">5</div>
+        <div class="stack-num-line"></div>
+      </div>
+      <div class="stack-layer-body">
+        <div class="stack-layer-title">Decisioning &amp; orchestration</div>
+        <div class="stack-layer-desc">The layer that converts scores and rules into actions — approve, decline, step-up authentication, hold for review, alert an analyst, file a SAR. Orchestration logic routes decisions across channels and coordinates responses across multiple products and systems. Speed and configurability here determine how quickly the institution can respond to new fraud patterns.</div>
+        <div class="stack-layer-examples">
+          <span>Decision engine</span><span>Step-up authentication triggers</span><span>Real-time payment interrupts</span><span>Alert routing logic</span><span>SAR workflow triggers</span>
+        </div>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <div class="stack-layer-num">
+        <div class="stack-num-circle">6</div>
+      </div>
+      <div class="stack-layer-body">
+        <div class="stack-layer-title">Case management &amp; feedback loop</div>
+        <div class="stack-layer-desc">The investigative and learning layer. Case management enables analysts to review, enrich, and disposition alerts. The feedback loop is what makes the system intelligent over time: confirmed fraud outcomes and analyst decisions flow back into model training, rule calibration, and threshold adjustment. Without this layer, the stack cannot learn.</div>
+        <div class="stack-layer-examples">
+          <span>Case management platform</span><span>Analyst workflow tools</span><span>Outcome tagging</span><span>Model retraining pipelines</span><span>Performance dashboards</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section-rule" id="s3">03 — High-fidelity signals: behavioral biometrics and device intelligence</div>
+
+  <p>Two signal categories deserve particular attention because they are increasingly treated not as niche add-ons but as foundational components of the fraud intelligence layer: behavioral biometrics and device intelligence.</p>
+
+  <h2>Behavioral biometrics</h2>
+  <p>Behavioral biometrics analyzes how a user interacts with a device — keystroke dynamics, mouse movement patterns, touch pressure and swipe behavior on mobile, scroll patterns, typing cadence, and the rhythm of form completion. These signals are continuous rather than point-in-time: they can be collected passively throughout an entire session without introducing any friction for legitimate users.</p>
+  <p>Their value lies precisely in their difficulty to spoof consistently. A fraudster can steal a password, clone a device fingerprint, or pass a liveness check with a high-quality deepfake. Replicating natural human behavioral patterns across an entire authenticated session — especially under time pressure — is substantially harder. Behavioral biometrics are also effective at distinguishing human users from automated bots and scripted attack tools, which exhibit unnaturally consistent or inhuman interaction patterns.</p>
+
+  <h2>Device intelligence</h2>
+  <p>Device intelligence assesses whether the device accessing the institution is what it appears to be and whether its configuration is consistent with legitimate use. This includes device fingerprinting (hardware and software configuration), detection of emulators and virtual machines commonly used in fraud automation, identification of rooted or jailbroken devices, VPN and proxy usage flags, and assessment of whether the device has been associated with prior fraud events across the institution's own history or industry consortium databases.</p>
+  <p>A new device login is not inherently suspicious — customers change phones. But a new device login combined with immediate credential changes, an unusual IP geography, and a high-value outbound transaction in the same session is a materially different risk picture. Device intelligence provides the context that makes the combination readable as a pattern rather than a set of isolated events.</p>
+
+  <!-- S4 -->
+  <div class="section-rule" id="s4">04 — Build versus buy: a strategic decision framework</div>
+
+  <p>Every fraud technology decision involves a version of the build-versus-buy question. The answer is almost never entirely one or the other. The more useful framing is: <em>which capabilities should we source externally for scale and shared intelligence, and which should we own internally for customization and institutional specificity?</em></p>
+
+  <table class="bvb-table">
+    <thead>
+      <tr><th>Capability</th><th>Recommended approach</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Consortium / shared fraud intelligence</td>
+        <td><span class="rec-vendor">Vendor</span></td>
+        <td>Network value comes from breadth across institutions — cannot be replicated internally</td>
+      </tr>
+      <tr>
+        <td>Identity verification &amp; document authentication</td>
+        <td><span class="rec-vendor">Vendor</span></td>
+        <td>Requires global document libraries, continuous liveness model updates, and specialist R&amp;D</td>
+      </tr>
+      <tr>
+        <td>Device intelligence</td>
+        <td><span class="rec-vendor">Vendor</span></td>
+        <td>Cross-institution device reputation requires consortium scale; in-house fingerprinting is supplementary</td>
+      </tr>
+      <tr>
+        <td>Fraud scoring models</td>
+        <td><span class="rec-inhouse">In-house (primary)</span> + vendor overlay</td>
+        <td>Internal models capture institution-specific fraud patterns; vendor scores provide cross-industry calibration</td>
+      </tr>
+      <tr>
+        <td>Rules engine &amp; decisioning logic</td>
+        <td><span class="rec-inhouse">In-house</span></td>
+        <td>Business rules must reflect internal risk appetite, product design, and regulatory obligations</td>
+      </tr>
+      <tr>
+        <td>Orchestration &amp; workflow</td>
+        <td><span class="rec-inhouse">In-house (owned)</span></td>
+        <td>Orchestration logic encodes institutional operating model — outsourcing this creates vendor lock-in on core operations</td>
+      </tr>
+      <tr>
+        <td>Case management</td>
+        <td>Vendor platform, internally configured</td>
+        <td>Platform provides workflow infrastructure; triage logic, escalation paths, and disposition codes must be internally designed</td>
+      </tr>
+      <tr>
+        <td>Behavioral biometrics</td>
+        <td><span class="rec-vendor">Vendor</span></td>
+        <td>Model training requires large behavioral datasets across diverse user populations; most institutions lack sufficient volume</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The blended approach also improves agility — the property that matters most in fraud prevention technology. Fraud patterns evolve faster than most enterprise change cycles. A stack with an internally owned orchestration and decisioning layer can introduce new vendor signals, adjust model weights, and update rules without requiring a full platform replacement. The orchestration layer is the institution's strategic asset; the vendor layers are pluggable capabilities.</p>
+
+  <div class="callout">
+    <div class="callout-label">Vendor evaluation criteria — what actually matters</div>
+    <ul>
+      <li><strong>Consortium breadth:</strong> How many institutions contribute to the shared intelligence network? Smaller networks offer proportionally less value</li>
+      <li><strong>Model transparency:</strong> Can the vendor explain what drives a score? Black-box outputs are difficult to govern and defend to regulators</li>
+      <li><strong>Latency:</strong> What is the p95 API response time under production load? Fraud decisioning latency directly affects customer experience</li>
+      <li><strong>Configurability:</strong> Can thresholds, rules, and model weights be adjusted by the institution without vendor involvement? Inflexible tools become bottlenecks</li>
+      <li><strong>Feedback integration:</strong> Does the vendor accept confirmed fraud outcome data to improve model accuracy? Vendors who don't are not improving with you</li>
+      <li><strong>Regulatory posture:</strong> Is the vendor's explainability and bias-testing documentation sufficient for examiner review?</li>
+    </ul>
+  </div>
+
+  <!-- S5 -->
+  <div class="section-rule" id="s5">05 — Model governance: the discipline that separates good from great</div>
+
+  <p>A fraud model that was accurate when it was built will degrade over time. Fraud typologies evolve, customer behavior shifts, and the population of applicants and transactors changes. A model trained on last year's fraud patterns may not detect this year's predominant attack vector — and the degradation is rarely visible until loss rates begin to climb.</p>
+
+  <p>Model governance is the operational discipline that prevents this. It is not just a compliance exercise — it is the mechanism by which the technology stack remains effective over time. Institutions that treat model governance as an annual review requirement rather than a continuous operational practice are, in effect, accepting performance decay as a cost of doing business.</p>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-num">01</div>
+      <div class="principle-title">Performance monitoring on a defined cadence</div>
+      <div class="principle-desc">Key model metrics — precision, recall, false positive rate, KS statistic — should be reviewed monthly, with automated reporting to flag metrics that fall outside defined tolerance bands.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">02</div>
+      <div class="principle-title">Champion-challenger testing</div>
+      <div class="principle-desc">New model versions are deployed alongside the production model on a traffic split, allowing performance comparison under live conditions before a full cutover. This reduces the risk of large-scale performance regressions.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">03</div>
+      <div class="principle-title">Population stability monitoring</div>
+      <div class="principle-desc">Changes in the applicant or transactor population — driven by new products, new channels, or macroeconomic shifts — can degrade model performance even when fraud patterns are stable. Population shift monitoring catches this early.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">04</div>
+      <div class="principle-title">Outcome feedback loops</div>
+      <div class="principle-desc">Confirmed fraud dispositions from investigations must flow back into model training data. Institutions that do not systematically capture and label fraud outcomes are training on incomplete ground truth.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">05</div>
+      <div class="principle-title">Explainability and documentation</div>
+      <div class="principle-desc">Every production model should have a model card documenting its training data, features, intended use, known limitations, and performance characteristics. This is increasingly a regulatory expectation, not a best practice.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">06</div>
+      <div class="principle-title">Adversarial testing</div>
+      <div class="principle-desc">Models should be tested against synthetic attack scenarios designed to replicate known and emerging fraud typologies. This is especially important for liveness and biometric models in the era of generative AI.</div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section-rule" id="s6">06 — The feedback loop: making the stack intelligent over time</div>
+
+  <p>Of the six layers in the fraud prevention stack, the feedback loop is the most frequently neglected and the most consequential for long-term performance. The signal collection, identity validation, and enrichment layers determine what the stack can see. The scoring and decisioning layers determine what it does with what it sees. But the feedback loop determines whether the stack gets better — or whether it stays static while fraud evolves around it.</p>
+
+  <p>An effective feedback loop has three components. First, <strong>systematic outcome capture</strong>: every alert, every decision, and every confirmed fraud disposition must be recorded in a way that links back to the specific signals, scores, and rules that produced it. Institutions that dispose of case outcomes without tagging the underlying data are discarding the most valuable model training signal they have. Second, <strong>false positive tracking</strong>: the feedback loop must capture not just confirmed fraud but also confirmed non-fraud — customers who were incorrectly flagged, declined, or interrupted. Without this, models optimize for detection and systematically undercount the costs associated. Third, <strong>loop closure speed</strong>: the time between a fraud event occurring and that event's outcome being reflected in model training determines how quickly the stack can adapt to new attack patterns. Institutions with quarterly retraining cycles are always three months behind the current threat.</p>
+
+  <div class="callout">
+    <div class="callout-label">Signs that a feedback loop is broken</div>
+    <ul>
+      <li>False positive rates are rising but model scores are not changing</li>
+      <li>New fraud typology causes a spike in losses before any model response</li>
+      <li>Analyst dispositions are recorded in case management but not exported to model training</li>
+      <li>Confirmed non-fraud outcomes are not labeled and retained</li>
+      <li>Model retraining is triggered by scheduled calendar dates, not by performance metrics</li>
+    </ul>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="section-rule" id="s7">Conclusion</div>
+
+  <p>A well-assembled fraud prevention technology stack is not a product — it is a system. It is a deliberate combination of signal collection, identity validation, external enrichment, internal modeling, real-time decisioning, and continuous learning, designed to detect patterns that no single tool can see and to adapt faster than fraudsters can move.</p>
+
+  <p>The institutions that build the most resilient stacks are not necessarily those with the largest technology budgets. They are the ones that make clear architectural choices: where vendor scale and shared intelligence provide advantages they cannot replicate internally, and where internal ownership of decisioning logic, model governance, and feedback loops is essential to maintaining control and adaptability. They treat the technology stack not as infrastructure to be maintained, but as a capability to be continuously improved — one that learns from every fraud event it encounters, and every legitimate customer it correctly serves.</p>
+
+  <div class="article-footer">
+    <div class="footer-label">Continue reading</div>
+    <div class="footer-links">
+      <div class="footer-link">
+        <span class="footer-link-label">Previous</span>
+        <a class="footer-link-title" href="./product-risk.html">Article 3 — Product Risk Profiles: Tailoring Defense to the Battleground</a>
+      </div>
+      <!--
+      <div class="footer-link">
+        <span class="footer-link-label">Next</span>
+        <a class="footer-link-title" href="./building-defenses.html">Article 5 — Building the Fraud Defense: From Zero to Continuous Enhancement</a>
+      </div>
+      <div class="footer-link">
+        <span class="footer-link-label">Related</span>
+        <a class="footer-link-title" href="./deepfake-frontier.html">The Deepfake Frontier — how AI is disrupting the technology stack</a>
+      </div>
+      -->
+      <div class="footer-link">
+        <span class="footer-link-label">Discuss</span>
+        <a class="footer-link-title" href="https://linkedin.com/in/sai-krishna-v-lolla-bba01b13/">Join the conversation on LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+<aside class="sidebar">
+  <div class="sidebar-block">
+    <h4>In this article</h4>
+    <a class="toc-link" href="#s1">Why layered architecture</a>
+    <a class="toc-link" href="#s2">The six core layers</a>
+    <a class="toc-link" href="#s3">Behavioral biometrics &amp; device intelligence</a>
+    <a class="toc-link" href="#s4">Build vs buy framework</a>
+    <a class="toc-link" href="#s5">Model governance</a>
+    <a class="toc-link" href="#s6">The feedback loop</a>
+  </div>
+  <div class="sidebar-block">
+    <h4>Tags</h4>
+    <span class="tag tag-int">Intermediate</span>
+    <span class="tag tag-topic">Technology</span>
+    <span class="tag tag-topic">Models</span>
+    <span class="tag tag-topic">Vendors</span>
+    <span class="tag tag-topic">Decisioning</span>
+    <span class="tag tag-topic">Governance</span>
+  </div>
+  <div class="sidebar-block">
+    <h4>In this series</h4>
+    <a class="rel-link" href="./fraud-typology.html">
+      <span class="rel-link-title">1 — Know Your Enemy</span>
+      <span class="rel-link-sub">Fraud typologies primer</span>
+    </a>
+    <a class="rel-link" href="./cross-functional.html">
+      <span class="rel-link-title">2 — The Fraud Function</span>
+      <span class="rel-link-sub">Governance &amp; cross-functional design</span>
+    </a>
+    <a class="rel-link" href="./product-risk.html">
+      <span class="rel-link-title">3 — Product Risk Profiles</span>
+      <span class="rel-link-sub">Deposits, loans, cards</span>
+    </a>
+    <div class="rel-link current-article">
+      <span class="rel-link-title">4 — Technology Stack ←</span>
+      <span class="rel-link-sub">You are here</span>
+    </div>
+    <!--
+    <a class="rel-link" href="./building-defenses.html">
+      <span class="rel-link-title">5 — Building the Defense</span>
+      <span class="rel-link-sub">Zero to continuous improvement</span>
+    </a>
+  </div>
+  <div class="sidebar-block">
+    <h4>Standalone deep-dives</h4>
+    <a class="rel-link" href="./stopping-fraud.html">
+      <span class="rel-link-title">Stopping Fraud Before It Starts</span>
+      <span class="rel-link-sub">Upstream detection</span>
+    </a>
+    <a class="rel-link" href="./deepfake-frontier.html">
+      <span class="rel-link-title">The Deepfake Frontier</span>
+      <span class="rel-link-sub">AI &amp; emerging threats</span>
+    </a>
+  </div>
+-->
+</aside>
+</div>
+
+<footer>
+  <span>Fraud Risk Intelligence — Practitioner Knowledge Repository</span>
+  <a href="../index.html">← All articles</a>
+</footer>
+
+<script>
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('.section-rule[id]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
