@@ -5,36 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sai Krishna V. Lolla — Fraud Risk & Analytics Leader</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style-v2.css" />
+  <script>
+    (function () {
+      var stored = localStorage.getItem('theme');
+      if (stored) document.documentElement.setAttribute('data-theme', stored);
+    })();
+  </script>
 </head>
 <body>
+
+  <div id="scroll-progress"></div>
 
   <!-- ── Navigation ─────────────────────────────────────────── -->
   <nav id="navbar">
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">Home</a>
-     <!-- <a href="/" class="nav-logo">🏠 Home</a> -->
-      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#publications">Articles</a></li>
-        <li><a href="#certifications">Certifications</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <!--<li><a href="assets/resume.pdf" target="_blank" class="btn-nav-cv">CV ↗</a></li> -->
-      </ul>
+      <a href="#hero" class="nav-logo">SKVL</a>
+      <div class="nav-center">
+        <ul class="nav-links">
+          <li><span id="nav-pill"></span></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#credentials">Credentials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+        <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
     </div>
   </nav>
 
   <!-- ── Hero ───────────────────────────────────────────────── -->
   <section id="hero">
+    <div class="hero-bg"></div>
     <div class="hero-inner">
-      <!--<p class="hero-greeting">Hi, I'm</p> -->
+      <p class="hero-eyebrow">Fraud Risk &amp; Analytics</p>
       <h1>Sai Krishna V. Lolla</h1>
-      <!--  <span class="wave">👋</span>-->
-      <p class="hero-role">Fraud Risk Strategist &amp; Analytics Leader</p>
+      <p class="hero-role">Fraud Risk Strategist <span class="accent-dot">&middot;</span> Analytics Leader</p>
       <p class="hero-tagline">
         15+ years leading fraud strategy across application fraud, synthetic identity, account takeover, and money movement risk — currently driving enterprise-wide fraud and identity initiatives at scale.
       </p>
@@ -55,14 +69,24 @@
     </div>
   </section>
 
+  <!-- ── Stats ──────────────────────────────────────────────── -->
+  <section id="stats" style="padding:0;">
+    <div class="stats-grid reveal-stagger">
+      <div class="stat-item reveal"><div class="stat-num">15+</div><div class="stat-label">Years in Fraud &amp; Risk Analytics</div></div>
+      <div class="stat-item reveal"><div class="stat-num">$3M+</div><div class="stat-label">Annual Loss Reduction Delivered</div></div>
+      <div class="stat-item reveal"><div class="stat-num">35%</div><div class="stat-label">YoY Application Fraud Reduction</div></div>
+      <div class="stat-item reveal"><div class="stat-num">30%</div><div class="stat-label">Drop in Unauthorized Account Access</div></div>
+    </div>
+  </section>
+
   <!-- ── About ──────────────────────────────────────────────── -->
   <section id="about">
     <div class="section-inner">
-      <p class="section-label">About me</p>
+      <p class="section-label reveal">About me</p>
       <div class="about-grid">
         <div class="about-left">
-          <h2>A fraud strategist who builds defenses that hold.</h2>
-          <p>
+          <h2 class="reveal">A fraud strategist who builds defenses that hold.</h2>
+          <p class="reveal">
             Fraud risk strategist with 15+ years designing and deploying analytics-driven
             defenses against the full spectrum of fraud typologies — application fraud,
             synthetic identity, account takeover, and money movement risk. Adept at building
@@ -70,12 +94,12 @@
             multi-signal fraud strategies to drastically reduce application fraud losses,
             affecting millions in loss savings.
           </p>
-          <p>
+          <p class="reveal">
             Hands-on data analytics practitioner with leadership experience — known for building
             nimble, high-performing teams and converting fraud risk insight into measurable
             business outcomes.
           </p>
-          <div class="skills-block">
+          <div class="skills-block reveal">
             <p class="skills-label">Core competencies</p>
             <ul class="skill-tags">
               <li>Fraud Analytics</li>
@@ -91,11 +115,9 @@
             </ul>
           </div>
         </div>
-        <div class="about-right">
-          <!-- Replace src with your actual photo path, e.g. assets/photo.jpg -->
+        <div class="about-right reveal">
           <div class="photo-frame">
             <img src="assets/photo.jpg" alt="Sai Krishna V. Lolla" onerror="this.parentElement.classList.add('photo-placeholder')" />
-           <!-- <div class="photo-initials">SKL</div> -->
           </div>
         </div>
       </div>
@@ -105,11 +127,12 @@
   <!-- ── Experience ─────────────────────────────────────────── -->
   <section id="experience" class="section-tinted">
     <div class="section-inner">
-      <p class="section-label">Career</p>
-      <h2 class="section-heading">Recent Experience</h2>
-      <div class="exp-list">
+      <p class="section-label reveal">Career</p>
+      <h2 class="section-heading reveal">Recent Experience</h2>
+      <div class="timeline">
 
-        <div class="exp-card">
+        <div class="exp-card reveal">
+          <span class="exp-dot"></span>
           <div class="exp-period">Jun 2024 — Present</div>
           <div class="exp-body">
             <div class="exp-header">
@@ -126,7 +149,8 @@
           </div>
         </div>
 
-        <div class="exp-card">
+        <div class="exp-card reveal">
+          <span class="exp-dot"></span>
           <div class="exp-period">Mar 2020 — May 2024</div>
           <div class="exp-body">
             <div class="exp-header">
@@ -136,14 +160,15 @@
             <p>Owned enterprise authentication strategy across web, mobile, and phone channels — driving risk-based challenge models and device intelligence that reduced unauthorized account access by 30%. Led cross-functional fraud strategy teams whose controls delivered $3M+ in annual loss reduction.</p>
             <div class="tag-list">
               <span class="tag">Authentication Strategy</span>
-              <span class="tag">Device Intelligence</span>
+              <span class="tag">Application Fraud Strategy</span>
               <span class="tag">Team Leadership</span>
               <span class="tag">KPI Frameworks</span>
             </div>
           </div>
         </div>
 
-        <div class="exp-card">
+        <div class="exp-card reveal">
+          <span class="exp-dot"></span>
           <div class="exp-period">Sep 2018 — Mar 2020</div>
           <div class="exp-body">
             <div class="exp-header">
@@ -153,13 +178,14 @@
             <p>Rotated into credit risk to develop full-cycle portfolio management expertise, leading acquisition strategies that expanded the receivables portfolio by $2M under controlled risk. Served as strategic thought partner to Product and Marketing on credit standards for new customer segments.</p>
             <div class="tag-list">
               <span class="tag">Credit Risk</span>
-              <span class="tag">Portfolio Management</span>
               <span class="tag">Acquisition Strategy</span>
+              <span class="tag">Portfolio Management</span>
             </div>
           </div>
         </div>
 
-        <div class="exp-card">
+        <div class="exp-card reveal">
+          <span class="exp-dot"></span>
           <div class="exp-period">Jul 2016 — Sep 2018</div>
           <div class="exp-body">
             <div class="exp-header">
@@ -183,20 +209,29 @@
   <!-- ── Projects ───────────────────────────────────────────── -->
   <section id="projects">
     <div class="section-inner">
-      <p class="section-label">Work</p>
-      <h2 class="section-heading">Projects</h2>
+      <p class="section-label reveal">Work</p>
+      <h2 class="section-heading reveal">Projects</h2>
+
+      <div class="filter-row reveal">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="fraud">Fraud Detection</button>
+        <button class="filter-pill" data-filter="risk">Risk Modeling</button>
+        <button class="filter-pill" data-filter="analytics">Business Analytics</button>
+      </div>
+
       <div class="project-grid">
 
-        <div class="project-card">
+        <div class="project-card reveal" data-category="fraud">
           <div class="project-img-area">
             <img src="assets/thumb_fraud.png" alt="Transaction Fraud Analysis" onerror="this.parentElement.classList.add('project-img-fallback')" />
             <div class="project-img-icon">&#128202;</div>
           </div>
           <div class="project-body">
+            <span class="project-category">Fraud Detection</span>
             <div class="project-header">
               <h3>Transaction Fraud Analysis</h3>
               <a href="https://github.com/skvlolla/transaction_fraud_analysis" target="_blank" rel="noopener" class="project-link">
-                View on GitHub
+                GitHub
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </a>
             </div>
@@ -210,16 +245,17 @@
           </div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card reveal" data-category="analytics">
           <div class="project-img-area">
             <img src="assets/thumb_bank_churn.png" alt="Bank Customer Churn Analysis" onerror="this.parentElement.classList.add('project-img-fallback')" />
             <div class="project-img-icon">&#128200;</div>
           </div>
           <div class="project-body">
+            <span class="project-category">Business Analytics</span>
             <div class="project-header">
               <h3>Bank Customer Churn — SQL Analysis</h3>
               <a href="projects/bank-churn-analysis.html" target="_blank" rel="noopener" class="project-link">
-                View Analysis
+                View
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </a>
             </div>
@@ -233,16 +269,17 @@
           </div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card reveal" data-category="risk">
           <div class="project-img-area">
             <img src="assets/thumb_credit_risk.png" alt="Credit Risk Scorecard" onerror="this.parentElement.classList.add('project-img-fallback')" />
             <div class="project-img-icon">&#128178;</div>
           </div>
           <div class="project-body">
+            <span class="project-category">Risk Modeling</span>
             <div class="project-header">
               <h3>Credit Risk Scorecard</h3>
               <a href="projects/credit-risk-scorecard.html" target="_blank" rel="noopener" class="project-link">
-                View Analysis
+                View
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </a>
             </div>
@@ -256,16 +293,17 @@
           </div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card reveal" data-category="analytics">
           <div class="project-img-area">
             <img src="assets/thumb_airline.png" alt="Airline Route Profitability Analysis" onerror="this.parentElement.classList.add('project-img-fallback')" />
             <div class="project-img-icon">&#9992;</div>
           </div>
           <div class="project-body">
+            <span class="project-category">Business Analytics</span>
             <div class="project-header">
               <h3>Airline Route Profitability Analysis</h3>
               <a href="projects/airline-route-analysis.html" target="_blank" rel="noopener" class="project-link">
-                View Analysis
+                View
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </a>
             </div>
@@ -283,151 +321,136 @@
     </div>
   </section>
 
-  <!-- ── Articles & Insights ───────────────────────────────── -->
-  <section id="publications" class="section-tinted">
+  <!-- ── Credentials (Certifications + Articles, tabbed) ─────── -->
+  <section id="credentials" class="section-tinted">
     <div class="section-inner">
-      <p class="section-label">Writing</p>
-      <h2 class="section-heading">Articles &amp; Insights</h2>
-      <div class="article-list">
+      <p class="section-label reveal">Credentials &amp; Insights</p>
+      <h2 class="section-heading reveal">Certifications &amp; Writing</h2>
 
-        <!-- Duplicate this block for each article -->
-        <a href="https://skvlolla.github.io/portfolio/assets/articles/fraud-typology.html" target="_blank" rel="noopener" class="article-card">
-          <div class="article-body">
-            <!--<span class="article-year">2023</span>-->
-            <h3>Know Your Enemy: A Practitioner's Guide to Fraud Typologies</h3>
-            <p>Draws distinction between two basic fraud typologies, highlights respective challenges and reinforces the need for a unified detection approach.</p>
-          </div>
-          <div class="article-arrow">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </div>
-        </a>
-
-        <a href="https://skvlolla.github.io/portfolio/assets/articles/cross-functional.html" target="_blank" rel="noopener" class="article-card">
-          <div class="article-body">
-            <!--<span class="article-year">2024</span>-->
-            <h3>The Fraud Function: Operating Within the Business</h3>
-            <p>Describes competing business priorities that fraud functions navigate and the need for an enterprise view to risk mitigation and sustainable growth.</p>
-          </div>
-          <div class="article-arrow">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </div>
-        </a>
-
-        <a href="https://skvlolla.github.io/portfolio/assets/articles/product-risk.html" target="_blank" rel="noopener" class="article-card">
-          <div class="article-body">
-            <!--<span class="article-year">2024</span>-->
-            <h3>Product Risk: Varying Risk Profile by Products</h3>
-            <p>Compares different banking products and differentiates risk profiles and timeline associated with effective risk management.</p>
-          </div>
-          <div class="article-arrow">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </div>
-        </a>
-
-
-        <a href="https://skvlolla.github.io/portfolio/assets/articles/fraud-tech-stack.html" target="_blank" rel="noopener" class="article-card">
-          <div class="article-body">
-            <!--<span class="article-year">2024</span>-->
-            <h3>Technology Stack: Models, Decisioning & the Vendor Landscape</h3>
-            <p>Breaks down fraud tech stack by key components and details on decisioning criteria to optimize framework.</p>
-          </div>
-          <div class="article-arrow">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </div>
-        </a>
-
-        <!--
-        <a href="https://skvlolla.github.io/portfolio/assets/articles/building-defenses.html" target="_blank" rel="noopener" class="article-card">
-          <div class="article-body">
-            <!--<span class="article-year">2024</span> -> add one more hyphen to keep commenting intact here
-            <h3>Building the Fraud Defense: From Zero to Continuous Enhancement</h3>
-            <p>Lays out considerations for insitutions with programs at varying level of maturity and respective priorities.</p>
-          </div>
-          <div class="article-arrow">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </div>
-        </a>
-        -->
+      <div class="tabs-row reveal">
+        <button class="tab-btn active" data-tab="tab-certifications">Certifications</button>
+        <button class="tab-btn" data-tab="tab-articles">Articles &amp; Insights</button>
       </div>
-    </div>
-  </section>
 
-  <!-- ── Certifications ─────────────────────────────────────── -->
-  <section id="certifications">
-    <div class="section-inner">
-      <p class="section-label">Credentials</p>
-      <h2 class="section-heading">Certifications</h2>
-      <div class="cert-grid">
+      <div id="tab-certifications" class="tab-panel active">
+        <div class="cert-grid">
 
-        <!--
-          data-type="image" → opens PNG in modal
-          data-type="pdf"   → opens PDF in modal
-          data-src          → path to the file
-        -->
-      <div class="cert-card" data-type="pdf" data-src="assets/certs/ABA Certificate Fraud Prevention.pdf">
-          <div class="cert-icon">&#128196;</div>
-          <div class="cert-info">
-            <h3>Certificate in Fraud Prevention</h3>
-            <p class="cert-issuer">American Bankers Association - USAA Learning</p>
-            <p class="cert-date">May 2026</p>
+          <div class="cert-card" data-type="pdf" data-src="assets/certs/ABA Certificate Fraud Prevention.pdf">
+            <div class="cert-icon">&#128196;</div>
+            <div class="cert-info">
+              <h3>Certificate in Fraud Prevention</h3>
+              <p class="cert-issuer">American Bankers Association</p>
+              <p class="cert-date">May 2026</p>
+            </div>
+            <span class="cert-type-badge">PDF</span>
           </div>
-          <span class="cert-type-badge">PDF</span>
-        </div>
 
-        <div class="cert-card" data-type="image" data-src="assets/certs/Intro-to-Claude-Code-Analytics-Certificate.png">
-          <div class="cert-icon">&#127941;</div>
-          <div class="cert-info">
-            <h3>Introduction to Claude Code Analytics</h3>
-            <p class="cert-issuer">Maven Analytics</p>
-            <p class="cert-date">May 2026</p>
+          <div class="cert-card" data-type="image" data-src="assets/certs/Intro-to-Claude-Code-Analytics-Certificate.png">
+            <div class="cert-icon">&#127941;</div>
+            <div class="cert-info">
+              <h3>Introduction to Claude Code Analytics</h3>
+              <p class="cert-issuer">Maven Analytics</p>
+              <p class="cert-date">May 2026</p>
+            </div>
+            <span class="cert-type-badge">PNG</span>
           </div>
-          <span class="cert-type-badge">PNG</span>
-        </div>
 
-        <div class="cert-card" data-type="pdf" data-src="assets/certs/AI 101 for Risk Managers.pdf">
-          <div class="cert-icon">&#128196;</div>
-          <div class="cert-info">
-            <h3>AI 101 For Risk Managers</h3>
-            <p class="cert-issuer">Skillsoft - USAA Learning</p>
-            <p class="cert-date">March 2025</p>
+          <div class="cert-card" data-type="pdf" data-src="assets/certs/SAS_PredMod_SAS_EM.pdf">
+            <div class="cert-icon">&#128196;</div>
+            <div class="cert-info">
+              <h3>SAS Predictive Modeler — Enterprise Miner</h3>
+              <p class="cert-issuer">SAS Institute</p>
+              <p class="cert-date">April 2013</p>
+            </div>
+            <span class="cert-type-badge">PDF</span>
           </div>
-          <span class="cert-type-badge">PDF</span>
-        </div>
 
-        <div class="cert-card" data-type="pdf" data-src="assets/certs/SAS_PredMod_SAS_EM.pdf">
-          <div class="cert-icon">&#128196;</div>
-          <div class="cert-info">
-            <h3>SAS Predictive Modeler — Enterprise Miner</h3>
-            <p class="cert-issuer">SAS Institute</p>
-            <p class="cert-date">April 2013</p>
+          <div class="cert-card" data-type="pdf" data-src="assets/certs/Base_SAS_Prog.pdf">
+            <div class="cert-icon">&#128196;</div>
+            <div class="cert-info">
+              <h3>Base SAS Programmer</h3>
+              <p class="cert-issuer">SAS Institute</p>
+              <p class="cert-date">February 2013</p>
+            </div>
+            <span class="cert-type-badge">PDF</span>
           </div>
-          <span class="cert-type-badge">PDF</span>
-        </div>
 
-        <div class="cert-card" data-type="pdf" data-src="assets/certs/Base_SAS_Prog.pdf">
-          <div class="cert-icon">&#128196;</div>
-          <div class="cert-info">
-            <h3>Base SAS Programmer</h3>
-            <p class="cert-issuer">SAS Institute</p>
-            <p class="cert-date">February 2013</p>
-          </div>
-          <span class="cert-type-badge">PDF</span>
         </div>
+      </div>
 
+      <div id="tab-articles" class="tab-panel">
+        <div class="article-list">
+
+          <a href="https://skvlolla.github.io/portfolio/assets/articles/fraud-typology.html" target="_blank" rel="noopener" class="article-card">
+            <div class="article-body">
+              <!--<span class="article-year">2025</span> -->
+              <h3>Know Your Enemy: A Practitioner's Guide to Fraud Typologies</h3>
+              <p>Draws distinction between two basic fraud typologies, highlights respective challenges and reinforces the need for a unified detection approach.</p>
+            </div>
+            <div class="article-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+          </a>
+
+          <a href="https://skvlolla.github.io/portfolio/assets/articles/cross-functional.html" target="_blank" rel="noopener" class="article-card">
+            <div class="article-body">
+              <!--<span class="article-year">2025</span> -->
+              <h3>The Fraud Function: Operating Within the Business</h3>
+              <p>Describes competing business priorities that fraud functions navigate and the need for an enterprise view to risk mitigation and sustainable growth.</p>
+            </div>
+            <div class="article-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+          </a>
+
+          <a href="https://skvlolla.github.io/portfolio/assets/articles/product-risk.html" target="_blank" rel="noopener" class="article-card">
+            <div class="article-body">
+              <!--<span class="article-year">2025</span> -->
+              <h3>Product Risk Profiles: Tailoring Defense to the Battleground</h3>
+              <p>Compares different banking products and differentiates risk profiles and timeline associated with effective risk management.</p>
+            </div>
+            <div class="article-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+          </a>
+
+          <a href="https://skvlolla.github.io/portfolio/assets/articles/fraud-tech-stack.html" target="_blank" rel="noopener" class="article-card">
+            <div class="article-body">
+              <!--<span class="article-year">2025</span> -->
+              <h3>The Technology Stack: Models, Decisioning & the Vendor Landscape</h3>
+              <p>Break down raud tech stack by key components and details on decisioning criteria to optimize framework.</p>
+            </div>
+            <div class="article-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+          </a>
+
+          <!--<a href="https://skvlolla.github.io/portfolio/assets/articles/.html" target="_blank" rel="noopener" class="article-card">
+            <div class="article-body">
+              <span class="article-year">2025</span>
+              <h3>Product Risk Profiles: Tailoring Defense to the Battleground</h3>
+              <p>Compares different banking products and differentiates risk profiles and timeline associated with effective risk management.</p>
+            </div>
+            <div class="article-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+          </a> -->
+
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── Contact ────────────────────────────────────────────── -->
-  <section id="contact" class="section-tinted">
+  <section id="contact">
     <div class="section-inner contact-inner">
-      <p class="section-label">Get in touch</p>
-      <h2 class="section-heading">Let's connect.</h2>
-      <p class="contact-sub">
+      <p class="section-label reveal">Get in touch</p>
+      <h2 class="section-heading reveal">Let's connect.</h2>
+      <p class="contact-sub reveal">
         Whether it's a new opportunity, a fraud challenge worth talking through, or simply
         an exchange of ideas on risk and analytics — I'm always glad to connect.
       </p>
-      <div class="contact-actions">
+      <div class="contact-actions reveal">
         <a href="mailto:skvlolla@gmail.com" class="btn-primary">Send an email</a>
         <a href="https://linkedin.com/in/sai-krishna-v-lolla-bba01b13" target="_blank" rel="noopener" class="btn-outline">LinkedIn</a>
         <a href="https://github.com/skvlolla" target="_blank" rel="noopener" class="btn-outline">GitHub</a>
@@ -437,13 +460,14 @@
 
   <footer>
     <div class="footer-inner">
-      <span>&copy; 2026 Sai Krishna V. Lolla, Fraud Risk Professional</span>
-      <!--<div class="footer-links">
-        <a href="https://github.com/skvlolla" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://linkedin.com/in/sai-krishna-v-lolla-bba01b13" target="_blank" rel="noopener">LinkedIn</a>  -->
-      </div>
+      <span>&copy; 2026 Sai Krishna V. Lolla</span>
     </div>
   </footer>
+
+  <!-- ── Back to top ─────────────────────────────────────────── -->
+  <button id="back-to-top" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
 
   <!-- ── Cert Modal ─────────────────────────────────────────── -->
   <div id="cert-modal" class="modal" role="dialog" aria-modal="true" aria-label="Certification viewer">
@@ -454,6 +478,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script-v2.js"></script>
 </body>
 </html>
